@@ -1,23 +1,20 @@
-import Head from 'next/head'
-import Header from '@components/Header'
-import Footer from '@components/Footer'
+import Link from 'next/link';
 
 export default function Home() {
   return (
     <div className="container">
-      <Head>
-        <title>Next.js Starter!</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <p>
+        Welcome! If your reading this, then our movie website is online!
+      </p>
+      <Link href="https://docs.google.com/document/d/18uxQ_v0aOvuiRRGqAzs10IgaSLn_MW_9hFxmBM6KpC4/edit?usp=sharing">
+        <a target='_blank'>Click here to open the planning doc (it also has a quickstart guide)</a>
+      </Link>
 
-      <main>
-        <Header title="Welcome to my app!" />
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-      </main>
-
-      <Footer />
+      <p>
+      <Link href="/example">
+        <a>[Go to example webpage]</a>
+        </Link>
+      </p>
     </div>
   )
 }
