@@ -7,6 +7,10 @@ export default function TopBar ({showLogin = true}) {
             <div className="title">
                 <a href="/home">PopcornPulse (home)</a>
             </div>
+
+            <div className="title">
+                <a href="/search"> Search for movies</a>
+            </div>
             
             {showLogin &&
                 <div className="buttons">
