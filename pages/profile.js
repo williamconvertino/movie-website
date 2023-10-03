@@ -1,8 +1,6 @@
 import Link from 'next/link';
 
-import ExampleComponent from '@components/ExampleComponent';
-
-//Make sure to import any components you need
+import ExampleComponent from '@components/ExampleComponent'; //Make sure to import any components you need
 
 export default function ProfilePage() {
   return (
