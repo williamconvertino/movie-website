@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import TopBar from '@components/TopBar';
+
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +21,7 @@ function LoginPage() {
 
   return (
     <div className="login-page">
-      <div className="title">PopcornPulse</div>
+      <TopBar showLogin={false}/>
       <form onSubmit={handleSubmit}>
       <p>Login</p>
         <div className="input-group">

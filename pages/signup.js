@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import TopBar from '@components/TopBar';
+
 const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -29,7 +31,7 @@ const SignupPage = () => {
 
   return (
     <div className="signup-page">
-      <div className="title">PopcornPulse</div>
+      <TopBar showLogin={false}/>
       <form onSubmit={handleSubmit}>
         <p>Sign Up</p> 
         <div className="input-container">
