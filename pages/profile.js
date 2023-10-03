@@ -4,7 +4,7 @@ import ExampleComponent from '@components/ExampleComponent';
 
 //Make sure to import any components you need
 
-export default function ExamplePage() {
+export default function ProfilePage() {
   return (
     <div className="container">
         <p>
