@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 
+import { useRouter } from 'next/router';
+
+import { UserAuth } from '@components/context/AuthContext';
 import TopBar from '@components/TopBar';
 
 function LoginPage() {
+  
+  const {user, emailSignUp, emailSignIn, logOut} = UserAuth()
+  const router = useRouter();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,9 +21,17 @@ function LoginPage() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add authentication here
+
+    try{
+      await emailSignIn(username, password) 
+      router.push('/home')
+    } catch (e) {
+      //Error message
+      setPassword('')
+    }
+ 
   };
 
   return (
@@ -25,7 +40,7 @@ function LoginPage() {
       <form onSubmit={handleSubmit}>
       <p>Login</p>
         <div className="input-group">
-          <label>Username:</label>
+          <label>Email:</label>
           <input
             type="username"
             value={username}

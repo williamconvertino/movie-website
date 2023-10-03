@@ -24,17 +24,15 @@ export const AuthContextProvider = ({ children }) => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       setUser(userCredential.user);
     } catch (error) {
-      console.error('Error signing up:', error);
+      console.error('Error signing up:');
     }
   };
 
   const emailSignIn = async (email, password) => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      setUser(userCredential.user);
-    } catch (error) {
-      console.error('Error signing in:', error);
-    }
+    
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    setUser(userCredential.user);
+  
   };
 
   const logOut = async () => {
@@ -42,7 +40,7 @@ export const AuthContextProvider = ({ children }) => {
       await signOut(auth);
       setUser(null);
     } catch (error) {
-      console.error('Error signing out:', error);
+      console.error('Error signing out');
     }
   };
 
