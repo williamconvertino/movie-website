@@ -13,6 +13,7 @@ import {
 } from 'firebase/auth';
 import {
   doc,
+  getDoc,
   setDoc,
 } from 'firebase/firestore';
 
@@ -25,6 +26,7 @@ const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null)
 
   const signUp = async (email, password, username) => {
     try {
@@ -50,12 +52,21 @@ export const AuthContextProvider = ({ children }) => {
   const emailSignIn = async (email, password) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     setUser(userCredential.user);
+    loadProfile(userCredential.user)
   };
+
+  const loadProfile = async (user) => {
+    if (!user) return;
+    const docRef = doc(db, 'users', user.uid);
+    const docSnapshot = await getDoc(docRef);
+    setProfile(docSnapshot.data())
+  }
 
   const logOut = async () => {
     try {
       await signOut(auth);
       setUser(null);
+      setProfile(null)
     } catch (error) {
       console.error('Error signing out');
     }
@@ -64,12 +75,13 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      loadProfile(currentUser)
     });
     return () => unsubscribe();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, signUp, emailSignIn, logOut }}>
+    <AuthContext.Provider value={{ user, profile, signUp, emailSignIn, logOut }}>
       {children}
     </AuthContext.Provider>
   );

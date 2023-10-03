@@ -2,7 +2,7 @@ import { UserAuth } from '@components/context/AuthContext';
 
 export default function TopBar ({showLogin = true}) {
     
-    const {user, emailSignUp, emailSignIn, logOut} = UserAuth()
+    const {user, profile, emailSignUp, emailSignIn, logOut} = UserAuth()
 
     return (
         <div>
@@ -17,8 +17,11 @@ export default function TopBar ({showLogin = true}) {
             
             {user ? (
                 <div>
-                    Logged in as {user.email}
+                    Logged in as {profile ? profile.username : 'loading...'}
                     <button onClick={() => logOut()}>Logout</button>
+                    <p>
+                        <a href="/profile">Go to profile</a>
+                    </p>
                 </div>
                 
             ) : (
