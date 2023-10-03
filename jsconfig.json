@@ -7,9 +7,4 @@
         "@backend/*": ["backend/*"]
       }
     },
-    "include": [
-      "**/*",
-      "backend/**/*",
-      "backend/getMovieData.js" // Add the missing file path here
-    ]
   }
