@@ -1,5 +1,5 @@
 const exampleFunction = () => {
-    return "It worked!"
+    console.log("It worked!");
 }
 
 const exampleAsyncFunction = () => {
