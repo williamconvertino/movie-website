@@ -1,5 +1,9 @@
 import Link from 'next/link';
 
+import ExampleComponent from '@components/ExampleComponent';
+
+//Make sure to import any components you need
+
 export default function ExamplePage() {
   return (
     <div className="container">
@@ -13,6 +17,9 @@ export default function ExamplePage() {
             Look at the URL for this page for reference.
         </p>
 
+        <ExampleComponent />
+        {/* You can use the component like an HTML tag, or in the form shown above */}
+        
         <Link href="/">
         <a>[Return home]</a>
         </Link>
