@@ -4,6 +4,7 @@ const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConf, setPasswordConf] = useState('');
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -15,6 +16,10 @@ const SignupPage = () => {
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
+  };
+
+  const handlePasswordConfChange = (e) => {
+    setPasswordConf(e.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -53,6 +58,16 @@ const SignupPage = () => {
             type="password"
             value={password}
             onChange={handlePasswordChange}
+            required
+            style={{ marginBottom: '15px' }}
+          />
+        </div>
+        <div className="input-container">
+          <label>Confirm Password:</label>
+          <input
+            type="passwordConf"
+            value={passwordConf}
+            onChange={handlePasswordConfChange}
             required
             style={{ marginBottom: '15px' }}
           />

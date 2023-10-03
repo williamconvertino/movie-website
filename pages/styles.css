@@ -13,6 +13,12 @@
     justify-content: center;
     height: 100vh;
   }
+
+  .home-page {
+    position: relative;
+    text-align: center;
+    padding: 20px;
+  }  
   
   .title {
     position: absolute;
@@ -54,3 +60,19 @@
   button:hover {
     background-color: #0056b3;
   }  
+
+  .buttons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .buttons a {
+    margin-left: 10px;
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  .buttons a:hover {
+    text-decoration: underline;
+  }
