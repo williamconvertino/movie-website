@@ -1,9 +1,15 @@
-{
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@components/*": ["components/*"],
-      "@styles/*": ["styles/*"]
-    }
+  {
+    "compilerOptions": {
+      "baseUrl": "./",
+      "paths": {
+        "@components/*": ["components/*"],
+        "@styles/*": ["styles/*"],
+        "@backend/*": ["backend/*"]
+      }
+    },
+    "include": [
+      "**/*",
+      "backend/**/*",
+      "backend/getMovieData.js" // Add the missing file path here
+    ]
   }
-}
