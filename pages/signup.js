@@ -7,7 +7,7 @@ import TopBar from '@components/TopBar';
 
 const SignupPage = () => {
 
-  const {user, emailSignUp, emailSignIn, logOut} = UserAuth()
+  const {user, signUp, emailSignIn, logOut} = UserAuth()
   const router = useRouter();
 
   const [email, setEmail] = useState('');
@@ -41,7 +41,7 @@ const SignupPage = () => {
     }
 
     try {
-      await emailSignUp(email, password)
+      await signUp(email, password, username)
       router.push('/home')
     } catch (e) {
       //Error message

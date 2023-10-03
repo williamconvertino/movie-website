@@ -11,17 +11,40 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
+import {
+  doc,
+  setDoc,
+} from 'firebase/firestore';
 
-import { auth } from '../../firebase';
+import {
+  auth,
+  db,
+} from '../../firebase';
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
- const emailSignUp = async (email, password) => {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    setUser(userCredential.user);
+  const signUp = async (email, password, username) => {
+    try {
+      
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+      const docRef = doc(db, 'users', userCredential.user.uid)
+
+      const data = {
+        email: email,
+        username: username,
+        datetimeCreated: new Date()
+      };
+      
+      await setDoc(docRef, data);
+
+      setUser(userCredential.user);
+    } catch (e) {
+      console.log(e)
+    }
   };
 
   const emailSignIn = async (email, password) => {
@@ -46,7 +69,7 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, emailSignUp, emailSignIn, logOut }}>
+    <AuthContext.Provider value={{ user, signUp, emailSignIn, logOut }}>
       {children}
     </AuthContext.Provider>
   );
