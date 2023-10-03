@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 
+import { useRouter } from 'next/router';
+
+import { UserAuth } from '@components/context/AuthContext';
 import TopBar from '@components/TopBar';
 
 const SignupPage = () => {
+
+  const {user, emailSignUp, emailSignIn, logOut} = UserAuth()
+  const router = useRouter();
+
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -24,9 +31,24 @@ const SignupPage = () => {
     setPasswordConf(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add authentication here
+    if (password != passwordConf) {
+      //Error message
+      setPassword('')
+      setPasswordConf('')
+      return
+    }
+
+    try {
+      await emailSignUp(email, password)
+      router.push('/home')
+    } catch (e) {
+      //Error message
+      setPassword('')
+      setPasswordConf('')
+    }
+
   };
 
   return (
@@ -67,7 +89,7 @@ const SignupPage = () => {
         <div className="input-container">
           <label>Confirm Password:</label>
           <input
-            type="passwordConf"
+            type="password"
             value={passwordConf}
             onChange={handlePasswordConfChange}
             required

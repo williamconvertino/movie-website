@@ -20,19 +20,13 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
  const emailSignUp = async (email, password) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      setUser(userCredential.user);
-    } catch (error) {
-      console.error('Error signing up:');
-    }
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    setUser(userCredential.user);
   };
 
   const emailSignIn = async (email, password) => {
-    
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     setUser(userCredential.user);
-  
   };
 
   const logOut = async () => {
