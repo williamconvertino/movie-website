@@ -13,6 +13,7 @@ export default function TopBar ({showLogin = true}) {
             {user ? (
                 <div className = "buttons">
                     <a href="/search">Movie Search</a>
+                    <a href="/usersearch">User Search</a>
                     <a href="/profile">Profile</a>
                     <p>Logged in as {profile ? profile.username : 'loading...'}</p>
                     <p><button onClick={() => logOut()}>Logout</button></p>
