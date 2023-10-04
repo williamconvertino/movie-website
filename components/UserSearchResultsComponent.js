@@ -4,14 +4,16 @@ import React, {
 } from 'react'; //useEffect hook for making API requests
 
 //displays search results based on query from search.js
-export default function SearchResults({ query }) {
+export default function UserSearchResults({ query }) {
   const [results, setResults] = useState([]); //results holds search results fetched by the API
 
   useEffect(() => {
-    fetch(`/api/getMovies?searchQuery=${query}`)
+    fetch(`/api/getUsers?username=${query}`)
       .then((response) => response.json())
       .then((data) => {
-        setResults(data.movieData);
+        setResults(data.userData);
+        console.log(data)
+        console.log(results)
       })
       .catch((error) => {
         console.error('Error fetching search results:', error);
@@ -23,7 +25,7 @@ export default function SearchResults({ query }) {
       <h2>Search Results</h2>
       <ul>
         {results.map((result) => (
-          <li key={result.id}>{result.name} {result.releaseDate}</li>
+          <li key={result.id}>{result.username} {result.email}</li>
         ))}
       </ul>
     </div>

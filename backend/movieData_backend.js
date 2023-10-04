@@ -6,7 +6,7 @@ const {
     getDocs
 } = require("firebase/firestore");
 
-const { db } = require('./backend_firebase')
+const { db } = require('./firebase_backend')
 
 const getMovieData = async (searchQuery) => {
 

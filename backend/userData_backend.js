@@ -1,27 +1,28 @@
 // get user data for provided email address
 // returns user data object
+const {
+    getFirestore,
+    collection,
+    query,
+    where,
+    getDocs
+} = require("firebase/firestore");
 
-const getUserData = async (UID) => {
-    const {
-        getFirestore,
-        collection,
-        query,
-        where,
-        getDocs
-    } = require("firebase/firestore");
+const { db } = require('./firebase_backend')
 
-    const { app } = require("../firebase/firebase.js");
-
-    const db = getFirestore(app);
+const getUserData = async (username) => {
 
     const usersRef = collection(db, "users");
-    const q = query(usersRef, where("UID", "==", UID));
+    const q = query(usersRef, where("username", "==", username));
 
     const querySnapshot = await getDocs(q);
     let userData = [];
     querySnapshot.forEach((doc) => {
-        userData.push(doc.data());
-    });
+        const data = doc.data()
+        data.id = doc.id
+        userData.push(data);
+    });    
+
     return userData;
 }
 
