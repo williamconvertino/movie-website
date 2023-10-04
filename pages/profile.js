@@ -52,7 +52,7 @@ export default function ProfilePage() {
       <h2>Previously Rated Movies</h2>
       <ul>
         {ratedMovies.map((movie) => (
-          <li key={movie.id}>{movie.name} {ratingMap[movie.id]}</li>
+          <li key={movie.id}>{movie.name} : {ratingMap[movie.id]} stars</li>
         ))}
       </ul>
     </div>
