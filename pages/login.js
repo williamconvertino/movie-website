@@ -38,7 +38,7 @@ function LoginPage() {
     <div className="login-page">
       <TopBar showLogin={false}/>
       <form onSubmit={handleSubmit}>
-      <p>Login</p>
+      <h1>Login</h1>
         <div className="input-group">
           <label>Email:</label>
           <input

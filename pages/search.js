@@ -14,9 +14,11 @@ export default function SearchPage() {
   return (
     <div>
       <TopBar />
-      <h1>Search Movies</h1>
-      <SearchBar onSearch={handleSearch} />
-      {query && <SearchResults query={query} />}
+      <div className = "movie-search">
+        <h1>Search Movies</h1>
+        <SearchBar onSearch={handleSearch} />
+        {query && <SearchResults query={query} />}
+      </div>
     </div>
   );
 }

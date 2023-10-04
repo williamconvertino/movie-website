@@ -8,11 +8,7 @@ export default function TopBar ({showLogin = true}) {
         <div>
             
             <div className="title">
-                <a href="/home">PopcornPulse (home)</a>
-            </div>
-            
-            <div className="title">
-                <a href="/search"> Search for movies</a>
+                <a href="/home">PopcornPulse</a>
             </div>
             
             {user ? (
@@ -28,13 +24,9 @@ export default function TopBar ({showLogin = true}) {
                 <>
                     {showLogin &&
                         <div className="buttons">
-                            <p>
-                                <a href="/login">Login</a>
-                            </p>
-        
-                            <p>
-                                <a href="/signup">Sign Up</a>
-                            </p>
+                            <a href="/search">Movie Search</a>
+                            <a href="/login">Login</a>
+                            <a href="/signup">Sign Up</a>
                         </div>
                     }
                 </>

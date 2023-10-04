@@ -55,7 +55,7 @@ const SignupPage = () => {
     <div className="signup-page">
       <TopBar showLogin={false}/>
       <form onSubmit={handleSubmit}>
-        <p>Sign Up</p> 
+        <h1>Sign Up</h1> 
         <div className="input-container">
           <label>Email:</label>
           <input
