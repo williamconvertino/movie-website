@@ -9,6 +9,7 @@ import {
 } from 'firebase/firestore';
 
 import { UserAuth } from '@components/context/AuthContext';
+import TopBar from '@components/TopBar';
 import { db } from '@firebase';
 
 export default function ProfilePage() {
@@ -45,6 +46,7 @@ export default function ProfilePage() {
 
   return (
     <div>
+      <TopBar />
       <h1>Your Profile</h1>
       <p>Username: {profile ? profile.username : 'Loading...'}</p>
       <h2>Previously Rated Movies</h2>
