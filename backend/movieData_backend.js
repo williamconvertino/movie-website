@@ -9,7 +9,7 @@ const getMovieData = async (searchQuery) => {
         getDocs
     } = require("firebase/firestore");
     
-    const { app } = require("../firebase.js");
+    const { app } = require("../firebase/firebase.js");
 
 
     const db = getFirestore(app);

@@ -10,7 +10,7 @@ const getUserData = async (UID) => {
         getDocs
     } = require("firebase/firestore");
 
-    const { app } = require("../firebase.js");
+    const { app } = require("../firebase/firebase.js");
 
     const db = getFirestore(app);
 

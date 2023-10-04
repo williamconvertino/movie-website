@@ -8,7 +8,7 @@ const {
     arrayUnion,
 } = require("firebase/firestore");
 
-const { app } = require("../firebase.js");
+const { app } = require("../firebase/firebase.js");
 
 const addMovie = async (movie) => {
     const db = getFirestore(app);
