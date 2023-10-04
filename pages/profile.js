@@ -47,14 +47,19 @@ export default function ProfilePage() {
   return (
     <div>
       <TopBar />
-      <h1>Your Profile</h1>
-      <p>Username: {profile ? profile.username : 'Loading...'}</p>
-      <h2>Previously Rated Movies</h2>
-      <ul>
-        {ratedMovies.map((movie) => (
-          <li key={movie.id}>{movie.name} : {ratingMap[movie.id]} stars</li>
-        ))}
-      </ul>
+      <div className = "user-profile">
+        <br></br>
+        <br></br>
+        <br></br>
+        <h1>Your Profile</h1>
+        <p>Username: {profile ? profile.username : 'Loading...'}</p>
+        <h2>Previously Rated Movies</h2>
+        <ul>
+          {ratedMovies.map((movie) => (
+            <li key={movie.id}>{movie.name} : {ratingMap[movie.id]} stars</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
