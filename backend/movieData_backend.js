@@ -4,7 +4,8 @@ const {
     query,
     where,
     doc,
-    getDoc
+    getDoc,
+    getDocs
 } = require("firebase/firestore");
 
 const { db } = require('./firebase_backend')
@@ -35,4 +36,17 @@ const getMovieData_ID = async (searchQuery) => {
     }
         }
 
-module.exports = { getMovieData, getMovieData_ID };
+const getMoviebyDate = async (dateFrom) => {
+    const moviesRef = collection(db, "movieProfiles");
+    const q = query(moviesRef, where("releaseDate", ">", Number(dateFrom)));
+    const querySnapshot = await getDocs(q);
+    let movieData = [];
+    querySnapshot.forEach((doc) => {
+        const data = doc.data()
+        data.id = doc.id
+        movieData.push(data);
+    });
+    return movieData;
+}
+
+module.exports = { getMovieData, getMovieData_ID, getMoviebyDate };
