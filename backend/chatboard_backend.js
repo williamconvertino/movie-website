@@ -1,6 +1,12 @@
-import { collection, query, where, getDocs } from "firebase/firestore";
+const {
+    collection,
+    query,
+    where,
+    addDoc,
+    getDocs,
+} = require("firebase/firestore");
 
-import { db } from './firebase_backend';
+const { db } = require('./firebase_backend')
 
 const addChatEntry = async (userReference, chatText) => {
     const chatRef = collection(db, "conversations");
@@ -26,5 +32,5 @@ const getuserChats = async (userID) => {
     return chatData;
 }
 
-module.exports(addChatEntry, getuserChats);
+module.exports = { addChatEntry, getuserChats };
 
