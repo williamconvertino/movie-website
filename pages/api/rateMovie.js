@@ -1,16 +1,15 @@
-// rates movies
-// takes in a user email, movie id, and a rating
+
 
 
 const { rateMovie } = require("../../backend/userData_backend.js");
 
 export default async (req, res) => {
-    // on call: http://localhost:3000/api/rateMovie
-    // get user data from firebase if user is logged in
+
     const userEmail = req.query.userEmail;
     const movieId = req.query.movieId;
     const rating = req.query.rating;
     await rateMovie(userEmail, movieId, rating);
-    //return results
+
     res.status(200).json({ userEmail, movieId, rating });
+    
 }
