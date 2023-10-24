@@ -1,11 +1,6 @@
-const {
-    collection,
-    query,
-    where,
-    getDocs
-} = require("firebase/firestore");
+import { collection, query, where, getDocs } from "firebase/firestore";
 
-const { db } = require('./firebase_backend')
+import { db } from './firebase_backend';
 
 const addChatEntry = async (userReference, chatText) => {
     const chatRef = collection(db, "conversations");
@@ -17,4 +12,19 @@ const addChatEntry = async (userReference, chatText) => {
         dislikes: 0
     });
 }
+
+const getuserChats = async (userID) => {
+    const chatRef = collection(db, "conversations");
+    const q = query(chatRef, where("userReference", "==", "users/" + userID));
+    const querySnapshot = await getDocs(q);
+    let chatData = [];
+    querySnapshot.forEach((doc) => {
+        const data = doc.data()
+        data.id = doc.id
+        chatData.push(data);
+    });
+    return chatData;
+}
+
+module.exports(addChatEntry, getuserChats);
 

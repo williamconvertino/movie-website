@@ -3,9 +3,10 @@
 const {
     getFirestore,
     collection,
-    query,
-    where,
-    getDocs
+    doc,
+    updateDoc,
+    arrayUnion,
+    arrayRemove
 } = require("firebase/firestore");
 
 const { db } = require('./firebase_backend')
@@ -39,14 +40,7 @@ const rateMovie = async (movieName, rating) => {
         }
     });
     if (userData) {
-        const {
-            getFirestore,
-            collection,
-            doc,
-            updateDoc,
-            arrayUnion,
-            arrayRemove
-        } = require("firebase/firestore");
+
         const db = getFirestore(app);
         const userRef = doc(db, "users", userData.uid);
         if (rating === 0) {
@@ -55,7 +49,7 @@ const rateMovie = async (movieName, rating) => {
             });
         } else {
             await updateDoc(userRef, {
-                ratings: arrayUnion({ docid: doc.id, rating: rating })
+                ratings: arrayUnion({ docid: doc(db, "users", userData.uid), rating: rating })
             });
         }
     }

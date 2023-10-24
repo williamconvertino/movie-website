@@ -3,7 +3,8 @@ const {
     collection,
     query,
     where,
-    getDocs
+    doc,
+    getDoc
 } = require("firebase/firestore");
 
 const { db } = require('./firebase_backend')
@@ -23,17 +24,15 @@ const getMovieData = async (searchQuery) => {
     }
 
 const getMovieData_ID = async (searchQuery) => {
-
-        const moviesRef = collection(db, "movieProfiles");
-        const q = query(moviesRef, where(doc.id, "==", searchQuery));
-        const querySnapshot = await getDocs(q);
-        let movieData = [];
-        querySnapshot.forEach((doc) => {
-            const data = doc.data()
-            data.id = doc.id
-            movieData.push(data);
-        });
-        return movieData;
+    //check if provided movie doc ID is in database
+    const movieRef = doc(db, "movieProfiles", searchQuery);
+    const movieData = await getDoc(movieRef);
+    if (movieData.exists()) {
+        return movieData.data();
+    }
+    else {
+        return null;
+    }
         }
 
-module.exports = { getMovieData };
+module.exports = { getMovieData, getMovieData_ID };

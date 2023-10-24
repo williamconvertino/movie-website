@@ -1,6 +1,3 @@
-
-
-
 const { rateMovie } = require("../../backend/userData_backend.js");
 
 export default async (req, res) => {
