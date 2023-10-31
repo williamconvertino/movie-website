@@ -36,6 +36,19 @@ const getMovieData_ID = async (searchQuery) => {
         return null;
     }
         }
+const getAutocompleteSuggestions = async (searchQuery) => {
+    const moviesRef = collection(db, "movieProfiles");
+    const q = query(moviesRef, where("name", ">=", searchQuery).where("name", "<=", searchQuery + "\uf8ff"));
+    const querySnapshot = await getDocs(q);
+    let movieData = [];
+    querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        data.id = doc.id;
+        movieData.push(data);
+    });
+    return movieData;
+}
 
 
-module.exports = { getMovieData, getMovieData_ID};
+module.exports = { getMovieData, getMovieData_ID, getAutocompleteSuggestions };
+
