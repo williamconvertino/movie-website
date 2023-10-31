@@ -12,18 +12,22 @@ const {
 const { db } = require('./firebase_backend')
 
 const getMovieData = async (searchQuery) => {
-
     const moviesRef = collection(db, "movieProfiles");
-    const q = query(moviesRef, where("name", "==", searchQuery));
+    const q = query(
+        moviesRef,
+        where("name", ">=", searchQuery), // StartAt partial query
+        where("name", "<=", searchQuery + "\uf8ff") // EndAt partial query
+    );
     const querySnapshot = await getDocs(q);
     let movieData = [];
     querySnapshot.forEach((doc) => {
-        const data = doc.data()
-        data.id = doc.id
+        const data = doc.data();
+        data.id = doc.id;
         movieData.push(data);
     });
     return movieData;
-    }
+}
+
 
 const getMovieData_ID = async (searchQuery) => {
     //check if provided movie doc ID is in database

@@ -1,29 +1,49 @@
-import React, {useState} from 'react'; //useState hook takes initial state value and returns an updated state value
+import React, { useState } from 'react';
 
-//called whenever the user submits a search, onSearch is from search.js
-export default function SearchBar({onSearch}) {
-    
-    const [query, setQuery] = useState(''); //query holds the current search query input field
-    
-    const handleInputChange = (e) => { //updates query state
-        setQuery(e.target.value);
-    };
+export default function SearchBar({ onSearch }) {
+  const [query, setQuery] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
 
-    const handleSearch = () => {  // Calls the search function and passes the query to search.js
-        onSearch(query);
-    };
-    
-    return (
-        <div>
-            <input
-                type="text"
-                placeholder="Search Here"
-                value={query} //display current search query
-                onChange={handleInputChange} //updates query state
-            />
-            <button onClick={handleSearch}>Search</button>
-        </div>
+  const handleInputChange = (e) => {
+    const newQuery = e.target.value;
+    setQuery(newQuery);
+
+    if (newQuery.length > 0) {
+      fetch(`/api/autocompleteMovies?searchQuery=${newQuery}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setSuggestions(data.movieData);
+        })
+        .catch((error) => {
+          console.error('Error fetching autocomplete suggestions:', error);
+        });
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const handleSearch = () => {
+    onSearch(query);
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Search Here"
+        value={query}
+        onChange={handleInputChange}
+      />
+      <button onClick={handleSearch}>Search</button>
+      {suggestions.length > 0 && (
+        <ul>
+          {suggestions.map((suggestion) => (
+            <li key={suggestion.id} onClick={() => setQuery(suggestion.name)}>
+              {suggestion.name}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
-
-    
