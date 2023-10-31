@@ -5,48 +5,58 @@ import React, {
 export default function ReviewForm() {
   const [movieTitle, setMovieTitle] = useState('');
   const [rating, setRating] = useState(0); 
-  const [review, setReview] = useState('');
-  
+  const [comment, setComment] = useState('');
+  const [reviews, setReviews] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const reviewData = { movieTitle, rating, review };
+    const newReview = { 
+      movieTitle: movieTitle, 
+      rating: rating, 
+      comment: comment 
+    };
 
-    try {
-      const response = await fetch('/api/reviews', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(reviewData),
-      });
+    setReviews([...reviews, newReview]);
 
-      if (response.ok) {
-        // Review created successfully, handle the confirmation.
-      } else {
-        // Handle the error response.
-      }
-    } catch (error) {
-      // Handle any network or other errors.
-    }
-  };
+    setMovieTitle('');
+    setRating(0);
+    setComment('');
+  }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Movie Title:
-        <input type="text" value={movieTitle} onChange={(e) => setMovieTitle(e.target.value)} />
-      </label>
-      <label>
-        Rating:
-        <input type="number" min="0" max="10" value={rating} onChange={(e) => setRating(e.target.value)} />
-      </label>
-      <label>
-        Review:
-        <textarea value={review} onChange={(e) => setReview(e.target.value)} />
-      </label>
-      <button type="submit">Submit Review</button>
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Movie Title:
+          <input type="text" value={movieTitle} onChange={(e) => setMovieTitle(e.target.value)} />
+        </label>
+        <label>
+          Rating:
+          <input type="number" min="0" max="10" value={rating} onChange={(e) => setRating(e.target.value)} />
+        </label>
+        <label>
+          Comment:
+          <textarea value={comment} onChange={(e) => setComment(e.target.value)} />
+        </label>
+        <button type="submit">Submit Review</button>
+      </form>
+      
+      <div>
+        <h2>Your Reviews</h2>
+        <ul>
+          {reviews.map((review, index) => (
+            <li key={index}>
+              <strong>Movie Title:</strong> {review.movieTitle}
+              <hr />
+              <strong>Rating:</strong> {review.rating}
+              <br />
+              <strong>Comment:</strong> {review.comment}
+              <br />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 }
