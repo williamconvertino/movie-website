@@ -12,20 +12,8 @@ const {
 
 const { db } = require('./firebase_backend')
 
-const addChatEntry = async (userReference, chatText, movieRef) => {
-    const chatRef = collection(db, "reviews");
-    await addDoc(chatRef, {
-        user: doc(db, "users/", userReference),
-        content: chatText,
-        movie: doc(db, "movieProfiles/", movieRef),
-        DateTimeCreated: Timestamp.now(),
-        numLikes: 0,
-        numDislikes: 0
-    });
-}
-
-const addReply = async(userReference, chatText, parentThread) => {
-    const chatRef = collection(db, "reviews");
+const addDiscussion = async(userReference, chatText, parentThread) => {
+    const chatRef = collection(db, "discussions");
     await addDoc(chatRef, {
         user: doc(db, "users/", userReference),
         content: chatText,
@@ -35,19 +23,6 @@ const addReply = async(userReference, chatText, parentThread) => {
         numDislikes: 0,
         parent: doc(db, "reviews/", parentThread)
     });
-}
-
-const getUserReviews = async (userID, lim) => {
-    const userRef = doc(db, "users/", userID);
-    const chatsRef = collection(db, "reviews");
-    const q = query(chatsRef, where("user", "==", userRef), limit(lim));
-    const querySnapshot = await getDocs(q);
-    let chatData = [];
-    querySnapshot.forEach((doc) => {
-        const data = doc.get("content");
-        chatData.push(data);
-    });
-    return chatData;
 }
 
 const getUserDiscussions = async (userID, lim) => {
@@ -63,8 +38,8 @@ const getUserDiscussions = async (userID, lim) => {
     return chatData;
 }
 
-const getChatbyID = async (chatID) => {
-    const chatRef = doc(db, "reviews/", chatID);
+const getDiscussionbyID = async (chatID) => {
+    const chatRef = doc(db, "discussions/", chatID);
     const chatData = await getDoc(chatRef);
     if (chatData.exists()) {
         return chatData.data();
@@ -74,5 +49,18 @@ const getChatbyID = async (chatID) => {
     }
 }
 
-module.exports = { addChatEntry, getUserReviews, addReply, getChatbyID, getUserDiscussions };
+const getDiscussionsReviewID = async (reviewID, limit) => {
+    // get all discussions based on reviewID
+    const reviewRef = doc(db, "reviews/", reviewID);
+    const chatsRef = collection(db, "discussions");
+    const q = query(chatsRef, where("parent", "==", reviewRef), limit(limit));
+    const querySnapshot = await getDocs(q);
+    let chatData = [];
+    querySnapshot.forEach((doc) => {
+        const data = doc.get("content")
+        chatData.push(data);
+    });
+    return chatData;
+    }
 
+module.exports = { addDiscussion, getUserDiscussions, getDiscussionbyID, getDiscussionsReviewID}

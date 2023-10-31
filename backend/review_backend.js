@@ -1,0 +1,81 @@
+const {
+    collection,
+    query,
+    where,
+    limit,
+    addDoc,
+    doc,
+    getDoc,
+    Timestamp,
+    getDocs
+} = require("firebase/firestore");
+
+const { db } = require('./firebase_backend')
+
+const addReviewEntry = async (userReference, chatText, movieRef) => {
+    const chatRef = collection(db, "reviews");
+    await addDoc(chatRef, {
+        user: doc(db, "users/", userReference),
+        content: chatText,
+        movie: doc(db, "movieProfiles/", movieRef),
+        DateTimeCreated: Timestamp.now(),
+        numLikes: 0,
+        numDislikes: 0
+    });
+}
+
+
+const getUserReviews = async (userID, lim) => {
+    const userRef = doc(db, "users/", userID);
+    const chatsRef = collection(db, "reviews");
+    const q = query(chatsRef, where("user", "==", userRef), limit(lim));
+    const querySnapshot = await getDocs(q);
+    let chatData = [];
+    querySnapshot.forEach((doc) => {
+        const data = doc.get("content");
+        chatData.push(data);
+    });
+    return chatData;
+}
+
+
+const getReviewbyID = async (chatID) => {
+    const chatRef = doc(db, "reviews/", chatID);
+    const chatData = await getDoc(chatRef);
+    if (chatData.exists()) {
+        return chatData.data();
+    }
+    else {
+        return null;
+    }
+}
+
+const getReviewsByDate = async (dateFrom) => {
+    const moviesRef = collection(db, "reviews");
+    const q = query(moviesRef, where("DateTimeCreated", ">", Timestamp(dateFrom)), orderBy("DateTimeCreated"));
+    const querySnapshot = await getDocs(q);
+    let output = [];
+    querySnapshot.forEach((doc) => {
+        const data = doc.get("content")
+        output.push(data);
+    });
+    return output;
+}
+
+const getReviewsByMovie = async (movie, limit) => {
+    const moviesRef = collection(db, "reviews");
+    const q = query(moviesRef, where("movie", "==", doc(db, "movieProfiles/", movie).name), limit(limit));
+    const querySnapshot = await getDocs(q);
+    let output = [];
+    querySnapshot.forEach((doc) => {
+        const data = doc.get("content")
+        output.push(data);
+    });
+    return output;
+}
+
+
+
+
+module.exports = { getUserReviews, addReviewEntry, getReviewbyID, getReviewsByDate, getReviewsByMovie };
+

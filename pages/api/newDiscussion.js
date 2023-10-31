@@ -1,4 +1,4 @@
-const { addReply} = require("../../backend/chatboard_backend.js");
+const { addDiscussion } = require("../../backend/discussion_backend.js");
 
 export default async (req, res) => {
 
@@ -7,7 +7,7 @@ export default async (req, res) => {
     const parentThread = req.query.parent;
 
     try {
-        await addReply(userReference, chatText, parentThread);
+        await addDiscussion(userReference, chatText, parentThread);
         res.status(200).json({ message: "Reply added successfully." });
     } catch (error) {
         res.status(500).json({ error: "Failed to create thread." });

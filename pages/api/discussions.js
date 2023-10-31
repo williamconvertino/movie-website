@@ -1,4 +1,4 @@
-const { getUserDiscussions }  = require("../../backend/chatboard_backend.js");
+const { getUserDiscussions }  = require("../../backend/discussion_backend.js");
 
 export default async (req, res) => {
         const userID = req.query.uid;

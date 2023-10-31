@@ -37,32 +37,5 @@ const getMovieData_ID = async (searchQuery) => {
     }
         }
 
-const getMoviebyDate = async (dateFrom) => {
-    const moviesRef = collection(db, "movieProfiles");
-    const q = query(moviesRef, where("releaseDate", ">", Number(dateFrom)), orderBy("releaseDate"));
-    const querySnapshot = await getDocs(q);
-    let movieData = [];
-    querySnapshot.forEach((doc) => {
-        const data = doc.data()
-        data.id = doc.id
-        movieData.push(data);
-    });
-    return movieData;
-}
 
-
-const getAutocompleteSuggestions = async (searchQuery) => {
-    const moviesRef = collection(db, "movieProfiles");
-    const q = query(moviesRef, where("name", ">=", searchQuery).where("name", "<=", searchQuery + "\uf8ff"));
-    const querySnapshot = await getDocs(q);
-    let movieData = [];
-    querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        data.id = doc.id;
-        movieData.push(data);
-    });
-    return movieData;
-}
-
-
-module.exports = { getMovieData, getMovieData_ID, getMoviebyDate, getAutocompleteSuggestions };
+module.exports = { getMovieData, getMovieData_ID};
