@@ -50,4 +50,19 @@ const getMoviebyDate = async (dateFrom) => {
     return movieData;
 }
 
-module.exports = { getMovieData, getMovieData_ID, getMoviebyDate };
+
+const getAutocompleteSuggestions = async (searchQuery) => {
+    const moviesRef = collection(db, "movieProfiles");
+    const q = query(moviesRef, where("name", ">=", searchQuery).where("name", "<=", searchQuery + "\uf8ff"));
+    const querySnapshot = await getDocs(q);
+    let movieData = [];
+    querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        data.id = doc.id;
+        movieData.push(data);
+    });
+    return movieData;
+}
+
+
+module.exports = { getMovieData, getMovieData_ID, getMoviebyDate, getAutocompleteSuggestions };
