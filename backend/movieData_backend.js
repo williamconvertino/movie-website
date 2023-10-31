@@ -5,7 +5,8 @@ const {
     where,
     doc,
     getDoc,
-    getDocs
+    getDocs,
+    orderBy
 } = require("firebase/firestore");
 
 const { db } = require('./firebase_backend')
@@ -38,7 +39,7 @@ const getMovieData_ID = async (searchQuery) => {
 
 const getMoviebyDate = async (dateFrom) => {
     const moviesRef = collection(db, "movieProfiles");
-    const q = query(moviesRef, where("releaseDate", ">", Number(dateFrom)));
+    const q = query(moviesRef, where("releaseDate", ">", Number(dateFrom)), orderBy("releaseDate"));
     const querySnapshot = await getDocs(q);
     let movieData = [];
     querySnapshot.forEach((doc) => {
