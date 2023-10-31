@@ -25,10 +25,13 @@ const addDiscussion = async(userReference, chatText, parentThread) => {
     });
 }
 
-const getUserDiscussions = async (userID, lim) => {
+const getUserDiscussions = async (userID, limit) => {
+    if (!limit) {
+        limit = 10;
+    }
     const userRef = doc(db, "users/", userID);
     const chatsRef = collection(db, "discussions");
-    const q = query(chatsRef, where("user", "==", userRef), limit(lim));
+    const q = query(chatsRef, where("user", "==", userRef), limit(limit));
     const querySnapshot = await getDocs(q);
     let chatData = [];
     querySnapshot.forEach((doc) => {
@@ -50,6 +53,9 @@ const getDiscussionbyID = async (chatID) => {
 }
 
 const getDiscussionsReviewID = async (reviewID, limit) => {
+    if (!limit) {
+        limit = 10;
+    }
     // get all discussions based on reviewID
     const reviewRef = doc(db, "reviews/", reviewID);
     const chatsRef = collection(db, "discussions");

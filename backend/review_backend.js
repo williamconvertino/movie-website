@@ -25,10 +25,13 @@ const addReviewEntry = async (userReference, chatText, movieRef) => {
 }
 
 
-const getUserReviews = async (userID, lim) => {
+const getUserReviews = async (userID, limit) => {
+    if (!limit) {
+        limit = 10;
+    }
     const userRef = doc(db, "users/", userID);
     const chatsRef = collection(db, "reviews");
-    const q = query(chatsRef, where("user", "==", userRef), limit(lim));
+    const q = query(chatsRef, where("user", "==", userRef), limit(limit));
     const querySnapshot = await getDocs(q);
     let chatData = [];
     querySnapshot.forEach((doc) => {
@@ -50,9 +53,13 @@ const getReviewbyID = async (chatID) => {
     }
 }
 
-const getReviewsByDate = async (dateFrom) => {
+const getReviewsByDate = async (dateFrom, limit) => {
+    //if limit is not set set it to 10
+    if (!limit) {
+        limit = 10;
+    }
     const moviesRef = collection(db, "reviews");
-    const q = query(moviesRef, where("DateTimeCreated", ">", Timestamp(dateFrom)), orderBy("DateTimeCreated"));
+    const q = query(moviesRef, where("DateTimeCreated", ">", Timestamp(dateFrom)), orderBy("DateTimeCreated"), limit(limit));
     const querySnapshot = await getDocs(q);
     let output = [];
     querySnapshot.forEach((doc) => {
@@ -63,6 +70,9 @@ const getReviewsByDate = async (dateFrom) => {
 }
 
 const getReviewsByMovie = async (movie, limit) => {
+    if (!limit) {
+        limit = 10;
+    }
     const moviesRef = collection(db, "reviews");
     const q = query(moviesRef, where("movie", "==", doc(db, "movieProfiles/", movie).name), limit(limit));
     const querySnapshot = await getDocs(q);
