@@ -14,6 +14,7 @@ const SignupPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConf, setPasswordConf] = useState('');
+  const [error, setError] = useState('');
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -34,26 +35,38 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password != passwordConf) {
-      //Error message
+      setError('Passwords do not match');
       setPassword('')
       setPasswordConf('')
       return
+    }
+
+    if (checkEmailExists(email)) {
+      setError('Account with this email already exists');
+      return;
     }
 
     try {
       await signUp(email, password, username)
       router.push('/home')
     } catch (e) {
-      //Error message
+      setError('Passwords do not match');
       setPassword('')
       setPasswordConf('')
     }
 
   };
 
+  //function to check if email exists (will need to be implemented w/ backend)
+  const checkEmailExists = (email) => {
+    // API backend request
+    return false; 
+  };
+
   return (
     <div className="signup-page">
       <TopBar showLogin={false}/>
+      {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
         <h1>Sign Up</h1> 
         <div className="input-container">

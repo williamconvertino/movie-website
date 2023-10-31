@@ -1,7 +1,7 @@
 import { UserAuth } from '@components/context/AuthContext';
+import React, { useState } from 'react';
 
 export default function TopBar ({showLogin = true}) {
-    
     const {user, profile, emailSignUp, emailSignIn, logOut} = UserAuth()
 
     return (
@@ -11,14 +11,15 @@ export default function TopBar ({showLogin = true}) {
             </div>
             
             {user ? (
-                <div className = "buttons">
-                    <a href="/search">Movie Search</a>
-                    <a href="/usersearch">User Search</a>
-                    <a href="/profile">Profile</a>
-                    <p>Logged in as {profile ? profile.username : 'loading...'}</p>
-                    <p><button onClick={() => logOut()}>Logout</button></p>
-                </div>
-                
+                <>
+                    <div className = "buttons">
+                        <a href="/search">Movie Search</a>
+                        <a href="/usersearch">User Search</a>
+                        <a href="/profile">Profile</a>
+                        <p>Logged in as {profile ? profile.username : 'loading...'}</p>
+                        <p><button onClick={() => logOut()}>Logout</button></p>
+                    </div>
+                </>
             ) : (
                 <>
                     {showLogin &&

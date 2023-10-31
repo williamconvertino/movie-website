@@ -12,6 +12,7 @@ function LoginPage() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -28,7 +29,7 @@ function LoginPage() {
       await emailSignIn(username, password) 
       router.push('/home')
     } catch (e) {
-      //Error message
+      setError('Incorrect Password');
       setPassword('')
     }
  
@@ -37,6 +38,7 @@ function LoginPage() {
   return (
     <div className="login-page">
       <TopBar showLogin={false}/>
+      {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit}>
       <h1>Login</h1>
         <div className="input-group">

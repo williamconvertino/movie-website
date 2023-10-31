@@ -1,5 +1,5 @@
 import '@styles/globals.css';
-import './styles.css';
+import '@styles/styles.css';
 
 import GlobalPageWrapper from '@components/global/GlobalPageWrapper';
 
