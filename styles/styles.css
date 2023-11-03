@@ -207,3 +207,42 @@ img {
   color: red;
   margin-top: 10px; 
 }
+
+.saved-movies {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Move saved movies to the bottom */
+  align-items: center; /* Move saved movies to the right */
+  flex: 1; /* Adjust the width to your layout needs */
+  margin-top: -140px;
+  padding: 20px;
+}
+
+.saved-movies h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.saved-movies ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.saved-movies li {
+  margin: 10px 0; /* Add spacing between each saved movie item */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.saved-movies button {
+  color: #fff; /* Button text color */
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.saved-movies span {
+  flex: 1; /* Allow the movie name to take up the available space */
+}
