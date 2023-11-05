@@ -24,7 +24,6 @@ const addReviewEntry = async (userReference, chatText, movieRef) => {
     });
 }
 
-
 const getUserReviews = async (userID, limit) => {
     if (!limit) {
         limit = 10;

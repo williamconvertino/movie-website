@@ -3,7 +3,16 @@ import React, {
   useState,
 } from 'react';
 
-import {doc, getDoc, collection, addDoc, query, where, getDocs, deleteDoc } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 
 import { UserAuth } from '@components/context/AuthContext';
 import TopBar from '@components/TopBar';
@@ -22,7 +31,10 @@ export default function ProfilePage() {
     if (!user) return;
     const docRef = doc(db, 'movieRatings', user.uid)
     const docSnapshot = await getDoc(docRef);
-    const ratings = docSnapshot.data().ratings
+    
+    const data = docSnapshot.data()
+    if (!data) return
+    const ratings = data.ratings
     setRatingMap(ratings)
 
     const movieList = []
@@ -67,10 +79,13 @@ export default function ProfilePage() {
     setNewMovie('');
   };
 
-  const handleDeleteMovie = async (movieId) => {
-    // Delete the movie from the saved movies list
-    // Modify code with actual database for saved movies of each user
-    await deleteDoc(doc(db, 'savedMovies', movieId));
+  const handleDeleteMovie = async (movie) => {
+    
+    if (!movie.id) return
+    
+    let movieDoc = doc(db, 'savedMovies', movie.id)
+    console.log(movieDoc)
+    await deleteDoc(movieDoc);
     setSavedMovies(savedMovies.filter((movie) => movie.id !== movieId));
   };
 
@@ -102,7 +117,7 @@ export default function ProfilePage() {
               {savedMovies.map((movie) => (
                 <li key={movie.id}>
                   <span>{movie.movieName}</span>
-                  <button onClick={() => handleDeleteMovie(movie.id)}>
+                  <button onClick={() => handleDeleteMovie(movie)}>
                     Delete Movie
                   </button>
                 </li>

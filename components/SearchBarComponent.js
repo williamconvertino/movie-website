@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import Link from 'next/link';
+
 export default function SearchBar({ onSearch }) {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -38,8 +40,8 @@ export default function SearchBar({ onSearch }) {
       {suggestions.length > 0 && (
         <ul>
           {suggestions.map((suggestion) => (
-            <li key={suggestion.id} onClick={() => setQuery(suggestion.name)}>
-              {suggestion.name}
+            <li key={suggestion.id}>
+              <Link href={`/movieprofile?id=${suggestion.id}`}>{suggestion.name}</Link>
             </li>
           ))}
         </ul>

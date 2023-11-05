@@ -23,7 +23,7 @@ export default function SearchResults({ query }) {
       <h2>Search Results</h2>
       <ul>
         {results.map((result) => (
-          <li key={result.id}>{result.name} {result.releaseDate}</li>
+          <li key={result.id}><Link href="/movieprofile">{result.name}</Link> {result.releaseDate}</li>
         ))}
       </ul>
     </div>
