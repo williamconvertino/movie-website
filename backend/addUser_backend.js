@@ -10,7 +10,7 @@ const {
 
 const { app } = require("../firebase/firebase.js");
 
-const addUserAndUpdateData = async (user) => {
+const addUser = async (user) => {
     const db = getFirestore(app);
 
     try {
