@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import TopBar from "@components/TopBar";
 
 export default function ReviewForm() {
@@ -22,56 +21,56 @@ export default function ReviewForm() {
     setMovieTitle("");
     setRating(0);
     setComment("");
-  };
+  }
 
   return (
     <div>
+      <TopBar />
+      <div className="review-page">
+      <br></br>
+      <br></br>
       <h1>Review A Movie</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          Movie Title:
           <input
+            placeholder="Movie Title"
             type="text"
             value={movieTitle}
             onChange={(e) => setMovieTitle(e.target.value)}
           />
-        </label>
 
-        <label>
-          Rating:
+          <label>Rating (1-5): 
           <input
             type="number"
             value={rating}
             onChange={(e) => setRating(e.target.value)}
             min="0"
-            max="10"
+            max="5"
           />
-        </label>
-
-        <label>
-          Comment:
+</label>
+        
           <textarea
+            placeholder="Review movie here ..."
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
-        </label>
 
         <button type="submit">Submit Review</button>
       </form>
       <div>
-        <h2>List of Reviews</h2>
+        <h1>List of Reviews</h1>
         <ul>
           {reviews.map((review, index) => (
             <li key={index}>
+              <strong>Movie Title:</strong> {review.movieTitle}
+              <br />
               <strong>Rating:</strong> {review.rating}
               <br />
-              <strong>Comment:</strong> {review.comment}
-              <br />
-              <strong>Movie Title:</strong> {review.movieTitle}
+              <strong>Review:</strong> {review.comment}
               <hr />
             </li>
           ))}
         </ul>
+      </div>
       </div>
     </div>
   );
