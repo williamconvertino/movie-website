@@ -60,13 +60,12 @@ const updateListName = async (userID, newName) => {
 
 
 const getUserSavedMovies = async (userID) => {
-    const userRef = doc(db, "users/", userID);
     const savedMoviesRef = collection(db, "savedMovies");
-    const q = query(savedMoviesRef, where("user", "==", userRef));
+    const q = query(savedMoviesRef, where("user", "==", userID));
     const querySnapshot = await getDocs(q);
     let savedMoviesData = [];
     querySnapshot.forEach((doc) => {
-        const data = doc.get("movieName");
+        const data = doc.get("movie");
         savedMoviesData.push(data);
     });
     return savedMoviesData;
