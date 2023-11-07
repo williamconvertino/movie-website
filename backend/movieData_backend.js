@@ -33,14 +33,15 @@ const getMovieData_ID = async (movieID) => {
     //check if provided movie doc ID is in database
     const movieRef = doc(db, "movieProfiles", movieID);
     const movieData = await getDoc(movieRef);
-    if (movieData.exists()) {
-        return movieData.data();
+    
+    if (!movieData.exists()) {
+        return null
     }
-    else {
-        return null;
-    }
-        }
 
+    const data = movieData.data();
+    data.id = movieData.id;
+    return data
+}
 
 const getMoviebyDate = async (dateFrom) => {
     const moviesRef = collection(db, "movieProfiles");

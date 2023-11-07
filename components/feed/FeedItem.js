@@ -6,7 +6,7 @@ import {
 export default function FeedItem ({ review, handleAddCommentClick}) {
     
     const [userName, setUserName] = useState('Loading...')
-    const [movieName, setMovieName] = useState('Loading...')
+    const [movie, setMovie] = useState(null)
     const [rating, setRating] = useState('Loading...')
     
     const populateData = async () => {
@@ -18,8 +18,7 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
         
         res = await fetch(`/api/getMovieID?movieID=${review.movie}`)
         data = await res.json()
-        const movie = data.movieData
-        setMovieName(movie.name);
+        setMovie(data.movieData);
 
         res = await fetch(`/api/getRatingID?userID=${review.user}&movieID=${review.movie}`)
         data = await res.json()
@@ -41,7 +40,7 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
             <div key={review.id} className="conversation">
                 <div className="conversation-header">
                     <p>Username: {userName}</p>
-                    <p>Movie: {movieName}</p>
+                    {movie ? <a href={`/movieprofile?id=${movie.id}`}><p>Movie: {movie.name}</p></a> : <p>"Loading..."</p>}
                     <p>Rating: {rating}</p>
                     <p>Review: {review.content}</p>
                 </div>
