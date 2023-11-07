@@ -72,7 +72,7 @@ const HomePage = () => {
             <TopBar />
             <div className="conversations-container">
                 <h2>Your Feed</h2>
-                {userReviews.map((review) => (<li key={review.id}><FeedItem review={review}/></li>))}
+                {userReviews.map((review) => (<div key={review.id}><FeedItem review={review}/></div>))}
             </div>
         </div>
     );
