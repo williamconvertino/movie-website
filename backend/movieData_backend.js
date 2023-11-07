@@ -13,11 +13,14 @@ const { db } = require('./firebase_backend')
 
 const getMovieData = async (searchQuery) => {
     
+    searchQuery = searchQuery.toLowerCase().trim();
+
     const moviesRef = collection(db, "movieProfiles");
+    
     const q = query(
         moviesRef,
-        where("name", ">=", searchQuery), // StartAt partial query
-        where("name", "<=", searchQuery + "\uf8ff") // EndAt partial query
+        where("searchName", ">=", searchQuery), // StartAt partial query
+        where("searchName", "<=", searchQuery + "\uf8ff") // EndAt partial query
     );
     const querySnapshot = await getDocs(q);
     let movieData = [];
@@ -27,6 +30,16 @@ const getMovieData = async (searchQuery) => {
         movieData.push(data);
     });
     return movieData;
+}
+
+const getMovieAutofill = async (searchQuery) => {
+    searchQuery = searchQuery.toLowerCase().trim();
+
+    if (searchQuery.length < 4) {
+        return [];
+    }
+
+    return getMovieData(searchQuery);
 }
 
 const getMovieData_ID = async (movieID) => {
@@ -70,5 +83,5 @@ const getAutocompleteSuggestions = async (searchQuery) => {
 }
 
 
-module.exports = { getMovieData, getMovieData_ID, getAutocompleteSuggestions };
+module.exports = { getMovieData, getMovieData_ID, getAutocompleteSuggestions, getMovieAutofill };
 

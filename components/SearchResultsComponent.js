@@ -1,31 +1,64 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react'; //useEffect hook for making API requests
+import React, { useState } from 'react';
 
-//displays search results based on query from search.js
-export default function SearchResults({ query }) {
-  const [results, setResults] = useState([]); //results holds search results fetched by the API
+import Link from 'next/link';
 
-  useEffect(() => {
+export default function SearchResultsComponent() {
+
+
+  const [query, setQuery] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+
+  const onSearch = async () => {
     fetch(`/api/getMovies?searchQuery=${query}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setResults(data.movieData);
-      })
-      .catch((error) => {
-        console.error('Error fetching search results:', error);
-      });
-  }, [query]);
+        .then((response) => response.json())
+        .then((data) => {
+          setSuggestions(data.movieData);
+        })
+        .catch((error) => {
+          console.error('Error fetching autocomplete suggestions:', error);
+        });
+  }
+
+  const handleInputChange = (e) => {
+    const newQuery = e.target.value;
+    setQuery(newQuery);
+
+    if (newQuery.length > 0) {
+      fetch(`/api/autocompleteMovies?searchQuery=${newQuery}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setSuggestions(data.movieData);
+        })
+        .catch((error) => {
+          console.error('Error fetching autocomplete suggestions:', error);
+        });
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const handleSearch = () => {
+    onSearch(query);
+  };
 
   return (
     <div>
-      <h2>Search Results</h2>
-      <ul>
-        {results.map((result) => (
-          <li key={result.id}><Link href="/movieprofile">{result.name}</Link> {result.releaseDate}</li>
-        ))}
-      </ul>
+      <input
+        type="text"
+        placeholder="Search Here"
+        value={query}
+        onChange={handleInputChange}
+      />
+      <button onClick={handleSearch}>Search</button>
+      {suggestions.length > 0 && (
+        <ul>
+          {suggestions.map((suggestion) => (
+            <li key={suggestion.id}>
+              <Link href={`/movieprofile?id=${suggestion.id}`}>{suggestion.name}</Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
