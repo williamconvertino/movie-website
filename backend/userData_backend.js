@@ -76,4 +76,4 @@ const rateMovie = async (movieName, rating) => {
     }
 }
 
-module.exports = { getUserData, rateMovie };
+module.exports = { getUserData, rateMovie, getUserID };
