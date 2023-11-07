@@ -23,6 +23,10 @@ export default function SearchResultsComponent() {
     const newQuery = e.target.value;
     setQuery(newQuery);
 
+    return
+    //THIS RETURN STATEMENT STOPS THE AUTOCOMPLETE
+    //Autocomplete is cool, but it causes a lot of database queries; only use it for demos
+
     if (newQuery.length > 0) {
       fetch(`/api/autocompleteMovies?searchQuery=${newQuery}`)
         .then((response) => response.json())

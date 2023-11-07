@@ -25,17 +25,15 @@ const addReviewEntry = async (userID, content, movieID) => {
     });
 }
 
-const getUserReviews = async (userID, limit) => {
-    if (!limit) {
-        limit = 10;
-    }
-    const userRef = doc(db, "users/", userID);
+const getUserReviews = async (userID, limit=10) => {
+    
     const chatsRef = collection(db, "reviews");
-    const q = query(chatsRef, where("user", "==", userRef), limit(limit));
+    const q = query(chatsRef, where("user", "==", userID));
     const querySnapshot = await getDocs(q);
     let chatData = [];
     querySnapshot.forEach((doc) => {
-        const data = doc.get("content");
+        const data = doc.data();
+        data.id = doc.id;
         chatData.push(data);
     });
     return chatData;
