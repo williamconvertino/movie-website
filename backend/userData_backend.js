@@ -17,8 +17,14 @@ const { db } = require('./firebase_backend')
 
 const getUserData = async (username) => {
 
+    username = username.trim()
+
     const usersRef = collection(db, "users");
-    const q = query(usersRef, where("username", "==", username));
+    const q = query(
+        usersRef,
+        where("username", ">=", username), // StartAt partial query
+        where("username", "<=", username + "\uf8ff") // EndAt partial query
+    );
 
     const querySnapshot = await getDocs(q);
     let userData = [];
