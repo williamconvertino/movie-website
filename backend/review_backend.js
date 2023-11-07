@@ -13,12 +13,12 @@ const {
 
 const { db } = require('./firebase_backend')
 
-const addReviewEntry = async (userReference, chatText, movieRef) => {
+const addReviewEntry = async (userID, content, movieID) => {
     const chatRef = collection(db, "reviews");
     await addDoc(chatRef, {
-        user: doc(db, "users/", userReference),
-        content: chatText,
-        movie: doc(db, "movieProfiles/", movieRef),
+        user: userID,
+        content: content,
+        movie: movieID,
         DateTimeCreated: Timestamp.now(),
         numLikes: 0,
         numDislikes: 0

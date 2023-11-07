@@ -11,7 +11,7 @@ import TopBar from '@components/TopBar';
 const MovieProfile = () => {
     
     const router = useRouter()
-    const {id} = router.query;
+    const {movieID} = router.query;
     const [movie, setMovie] = useState(null);
 
     const [userReviews, setUserReviews] = useState([]);
@@ -21,8 +21,8 @@ const MovieProfile = () => {
     }
 
     const loadMovie = async () => {
-        if (!id) return;
-        fetch(`/api/getMovieID?movieID=${id}`)
+        if (!movieID) return;
+        fetch(`/api/getMovieID?movieID=${movieID}`)
             .then((response) => response.json())
             .then((data) => {
                 setMovie(data.movieData);
@@ -33,8 +33,8 @@ const MovieProfile = () => {
     }
 
     const loadUserReviews = async () => {
-        if (!id) return;
-        fetch(`/api/getReviewMovie?movieID=${id}`)
+        if (!movieID) return;
+        fetch(`/api/getReviewMovie?movieID=${movieID}`)
             .then((response) => response.json())
             .then((data) => {
                 setUserReviews(data.reviewData);
@@ -51,7 +51,7 @@ const MovieProfile = () => {
 
     useEffect(() => {
         populateData()
-    }, [id]);
+    }, [movieID]);
 
     return (
         <div>
@@ -71,6 +71,7 @@ const MovieProfile = () => {
                     </div>
                     <div className="user-ratings">
                         <h2>Recent reviews</h2>
+                        <a href={`/review?movieID=${movie.id}`}>Write a review</a>
                         {userReviews.map((review) => (<div key={review.id}><FeedItem review={review}/></div>))}
                     </div>
                     <button onClick={() => onSave(movie)}>Save Movie</button>

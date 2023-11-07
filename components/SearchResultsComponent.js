@@ -54,7 +54,7 @@ export default function SearchResultsComponent() {
         <ul>
           {suggestions.map((suggestion) => (
             <li key={suggestion.id}>
-              <Link href={`/movieprofile?id=${suggestion.id}`}>{suggestion.name}</Link>
+              <Link href={`/movieprofile?movieID=${suggestion.id}`}>{suggestion.name}</Link>
             </li>
           ))}
         </ul>
