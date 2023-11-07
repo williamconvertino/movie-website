@@ -3,7 +3,7 @@ const { getMovieData_ID } = require('../../backend/movieData_backend.js');
 
 export default async (req, res) => {  
     //get search query;
-    const movieData = await getMovieData_ID(req.query.q);
+    const movieData = await getMovieData_ID(req.query.movieID);
     //return results
     res.status(200).json({ movieData });
 }

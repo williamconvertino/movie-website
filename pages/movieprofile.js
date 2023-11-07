@@ -19,7 +19,7 @@ const MovieProfile = () => {
 
     const loadMovie = async () => {
         if (!id) return;
-        fetch(`/api/getMovieID?q=${id}`)
+        fetch(`/api/getMovieID?movieID=${id}`)
             .then((response) => response.json())
             .then((data) => {
                 setMovie(data.movieData);

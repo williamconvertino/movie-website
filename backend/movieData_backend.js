@@ -29,9 +29,9 @@ const getMovieData = async (searchQuery) => {
     return movieData;
 }
 
-const getMovieData_ID = async (searchQuery) => {
+const getMovieData_ID = async (movieID) => {
     //check if provided movie doc ID is in database
-    const movieRef = doc(db, "movieProfiles", searchQuery);
+    const movieRef = doc(db, "movieProfiles", movieID);
     const movieData = await getDoc(movieRef);
     if (movieData.exists()) {
         return movieData.data();

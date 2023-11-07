@@ -53,12 +53,13 @@ const getReviewbyID = async (chatID) => {
 }
 
 const getReviewsByDate = async (dateFrom, limit) => {
+
     //if limit is not set set it to 10
     if (!limit) {
         limit = 10;
     }
     const moviesRef = collection(db, "reviews");
-    const q = query(moviesRef, where("DateTimeCreated", ">", Timestamp(dateFrom)), orderBy("DateTimeCreated"), limit(limit));
+    const q = query(moviesRef, where("DateTimeCreated", ">", Timestamp(new Date(dateFrom))), orderBy("DateTimeCreated"), limit(limit));
     const querySnapshot = await getDocs(q);
     let output = [];
     querySnapshot.forEach((doc) => {

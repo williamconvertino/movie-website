@@ -3,10 +3,14 @@
 const {
     getFirestore,
     collection,
-    doc,
     updateDoc,
     arrayUnion,
-    arrayRemove
+    arrayRemove,
+    query,
+    where,
+    getDocs,
+    getDoc,
+    doc
 } = require("firebase/firestore");
 
 const { db } = require('./firebase_backend')
@@ -26,6 +30,18 @@ const getUserData = async (username) => {
 
     return userData;
 }
+
+const getUserDataID = async (userID) => {
+    //check if provided movie doc ID is in database
+    const userRef = doc(db, "users", userID);
+    const userData = await getDoc(userRef);
+    if (userData.exists()) {
+        return userData.data();
+    }
+    else {
+        return null;
+    }
+        }
 
 //user Rates movie -- update user data field "ratings" with new movie and new rating
 //ratings takes the documentID 
@@ -55,4 +71,4 @@ const rateMovie = async (movieName, rating) => {
     }
 }
 
-module.exports = { getUserData, rateMovie };
+module.exports = { getUserData, getUserDataID, rateMovie };
