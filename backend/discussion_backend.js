@@ -13,17 +13,30 @@ const {
 const { db } = require('./firebase_backend')
 
 //add parent review or parent discussion fields, one will be empty
-const addDiscussion = async(userReference, chatText, parentThread) => {
+const addDiscussion = async(userReference, chatText, parentDiscussion, parentReview) => {
     const chatRef = collection(db, "discussions");
+    if(parentDiscussion == null){
     await addDoc(chatRef, {
         user: doc(db, "users/", userReference),
         content: chatText,
-        movie: doc(db, "reviews/", parentThread),
         DateTimeCreated: Timestamp.now(),
         numLikes: 0,
         numDislikes: 0,
-        parent: doc(db, "reviews/", parentThread)
+        parentReview: doc(db, "reviews/", parentReview),
+        parentDiscussion: null
     });
+}
+else{
+    await addDoc(chatRef, {
+        user: doc(db, "users/", userReference),
+        content: chatText,
+        DateTimeCreated: Timestamp.now(),
+        numLikes: 0,
+        numDislikes: 0,
+        parentReview: null,
+        parentDiscussion: doc(db, "discussions/", parentDiscussion)
+    });
+}
 }
 
 const getUserDiscussions = async (userID, limit) => {
