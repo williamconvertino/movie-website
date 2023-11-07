@@ -37,9 +37,8 @@ const getUserData = async (username) => {
     return userData;
 }
 
-const getUserDataID = async (userID) => {
-    //check if provided movie doc ID is in database
-    const userRef = doc(db, "users", userID);
+const getUserID = async (userID) => {
+    const userRef = doc(db, "users/", userID);
     const userData = await getDoc(userRef);
     if (userData.exists()) {
         return userData.data();
@@ -47,7 +46,7 @@ const getUserDataID = async (userID) => {
     else {
         return null;
     }
-        }
+}
 
 //user Rates movie -- update user data field "ratings" with new movie and new rating
 //ratings takes the documentID 
@@ -77,4 +76,4 @@ const rateMovie = async (movieName, rating) => {
     }
 }
 
-module.exports = { getUserData, getUserDataID, rateMovie };
+module.exports = { getUserData, rateMovie };
