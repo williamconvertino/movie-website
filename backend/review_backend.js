@@ -78,7 +78,8 @@ const getReviewsByMovie = async (movieID, limit=10) => {
     const querySnapshot = await getDocs(q);
     let output = [];
     querySnapshot.forEach((doc) => {
-        const data = doc.get("content")
+        const data = doc.data()
+        data.id = doc.id
         output.push(data);
     });
     return output;

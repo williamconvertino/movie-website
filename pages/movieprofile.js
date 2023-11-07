@@ -5,6 +5,7 @@ import React, {
 
 import { useRouter } from 'next/router';
 
+import FeedItem from '@components/feed/FeedItem';
 import TopBar from '@components/TopBar';
 
 const MovieProfile = () => {
@@ -36,7 +37,6 @@ const MovieProfile = () => {
         fetch(`/api/getReviewMovie?movieID=${id}`)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
                 setUserReviews(data.reviewData);
             })
             .catch((error) => {

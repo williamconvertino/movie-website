@@ -10,10 +10,11 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
     const [rating, setRating] = useState('Loading...')
     
     const populateData = async () => {
-        
+    
         const res = await fetch(`/api/getUserID?userID=${review.user}`)
         const data = await res.json()
         const user = data.userData
+        
         setUserName(user.username);
         
         res = await fetch(`/api/getMovieID?movieID=${review.movie}`)
