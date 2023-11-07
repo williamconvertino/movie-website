@@ -42,3 +42,22 @@
     ))
     )
 }
+
+
+
+
+<div className="user-conversations">
+                            <h2>User Rating: 4.5/5</h2>
+                            <div className="user-conversation">
+                                <h3>User 1</h3>
+                                <p>Rated: Movie Name</p>
+                                <p>Rating: 4.5/5</p>
+                                <p>Comments: insert here...</p>
+                        </div>
+                            <div className="user-conversation">
+                                <h3>User 2</h3>
+                                <p>Rated: Movie Name</p>
+                                <p>Rating: 4.0/5</p>
+                                <p>Comments: insert here...</p>
+                            </div>
+                        </div>

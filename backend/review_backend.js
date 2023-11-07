@@ -7,7 +7,8 @@ const {
     doc,
     getDoc,
     Timestamp,
-    getDocs
+    getDocs,
+    orderBy
 } = require("firebase/firestore");
 
 const { db } = require('./firebase_backend')
@@ -69,12 +70,11 @@ const getReviewsByDate = async (dateFrom, limit) => {
     return output;
 }
 
-const getReviewsByMovie = async (movie, limit) => {
-    if (!limit) {
-        limit = 10;
-    }
+const getReviewsByMovie = async (movieID, limit=10) => {
+    
     const moviesRef = collection(db, "reviews");
-    const q = query(moviesRef, where("movie", "==", doc(db, "movieProfiles/", movie).name), limit(limit));
+    const q = query(moviesRef, where("movie", "==", movieID), orderBy('DateTimeCreated', 'desc')); 
+    // , orderBy('DatetimeCreated', 'desc'), limit(limit)
     const querySnapshot = await getDocs(q);
     let output = [];
     querySnapshot.forEach((doc) => {

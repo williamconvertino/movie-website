@@ -13,6 +13,8 @@ const MovieProfile = () => {
     const {id} = router.query;
     const [movie, setMovie] = useState(null);
 
+    const [userReviews, setUserReviews] = useState([]);
+
     const onSave = async (movie) => {
 
     }
@@ -29,8 +31,26 @@ const MovieProfile = () => {
             });
     }
 
-    useEffect(() => {
+    const loadUserReviews = async () => {
+        if (!id) return;
+        fetch(`/api/getReviewMovie?movieID=${id}`)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                setUserReviews(data.reviewData);
+            })
+            .catch((error) => {
+                console.error('Error fetching search results:', error);
+            });
+    }
+
+    const populateData = async () => {
         loadMovie()
+        loadUserReviews()
+    }
+
+    useEffect(() => {
+        populateData()
     }, [id]);
 
     return (
@@ -50,21 +70,8 @@ const MovieProfile = () => {
                         <img src={movie.imageUrl} alt={movie.name} />
                     </div>
                     <div className="user-ratings">
-                        <div className="user-conversations">
-                            <h2>User Rating: 4.5/5</h2>
-                            <div className="user-conversation">
-                                <h3>User 1</h3>
-                                <p>Rated: Movie Name</p>
-                                <p>Rating: 4.5/5</p>
-                                <p>Comments: insert here...</p>
-                        </div>
-                            <div className="user-conversation">
-                                <h3>User 2</h3>
-                                <p>Rated: Movie Name</p>
-                                <p>Rating: 4.0/5</p>
-                                <p>Comments: insert here...</p>
-                            </div>
-                        </div>
+                        <h2>Recent reviews</h2>
+                        {userReviews.map((review) => (<div key={review.id}><FeedItem review={review}/></div>))}
                     </div>
                     <button onClick={() => onSave(movie)}>Save Movie</button>
                 </div>
