@@ -38,8 +38,8 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
     
     return(
         <div>
-            <div key={review.id} className="review">
-                <div className="review-header">
+            <div key={review.id} className="conversation">
+                <div className="conversation-header">
                     <p>Username: {userName}</p>
                     <p>Movie: {movieName}</p>
                     <p>Rating: {rating}</p>
