@@ -79,14 +79,14 @@ const MovieProfile = () => {
                         <h1>{movie.name}</h1>
                         <p>Released Date: {movie.releaseDate}</p>
                         <p>Genre: {movie.releaseDate}</p>
-                        <img src={movie.imageUrl} alt={movie.name} />
+                        <button onClick={onSave}>Save Movie</button>
                     </div>
                     <div className="user-ratings">
-                        <h2>Recent reviews</h2>
+                        <h2>Recent Reviews</h2>
                         <a href={`/review?movieID=${movie.id}`}>Write a review</a>
                         {userReviews.map((review) => (<div key={review.id}><FeedItem review={review}/></div>))}
                     </div>
-                    <button onClick={onSave}>Save Movie</button>
+                    
                 </div>
             )}
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import SearchBar from '@components/SearchBarComponent';
+import SearchBar from '@components/SearchResultsComponent';
 import TopBar from '@components/TopBar';
 import UserSearchResults from '@components/UserSearchResultsComponent';
 

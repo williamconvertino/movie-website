@@ -84,7 +84,7 @@ export default function ProfilePage() {
         <br></br>
         <h1>Your Profile</h1>
         <p>Username: {profile ? profile.username : 'Loading...'}</p>
-        <h2>Previously Reviews</h2>
+        <h2>Previously Reviewed</h2>
         <ul>
           {reviews.map((review) => (
             <li key={review.id}>{!review.movie ? "Loading..." : 
@@ -98,32 +98,30 @@ export default function ProfilePage() {
             }</li>
           ))}
         </ul>
+      </div>
 
-        <div className="saved-movies">
-          <div className="movie-input-container">
-            <h2>Saved Movies</h2>
-            <ul>
-              {savedMovies.map((movie) => (
-                <li key={movie.id}>
-                  <a href={`/movieprofile?movieID=${movie.id}`}>{movie.name}</a>
-                  <button onClick={() => handleDeleteMovie(movie)}>
-                    Delete Movie
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <div>
-              {/* <input
-                type="text"
-                placeholder="Enter a movie name"
-                value={newMovie}
-                onChange={(e) => setNewMovie(e.target.value)}
-              /> */}
-              {/* <button onClick={handleAddMovie}>Add Movie</button> */}
-            </div>
+      <div className="saved-movies">
+          <h2>Saved Movies</h2>
+          <ul>
+            {savedMovies.map((movie) => (
+              <li key={movie.id}>
+                <a href={`/movieprofile?movieID=${movie.id}`}>{movie.name}</a>
+                <button onClick={() => handleDeleteMovie(movie)}>
+                  Delete Movie
+                </button>
+              </li>
+            ))}
+          </ul>
+          <div>
+            {/* <input
+              type="text"
+              placeholder="Enter a movie name"
+              value={newMovie}
+              onChange={(e) => setNewMovie(e.target.value)}
+            /> */}
+            {/* <button onClick={handleAddMovie}>Add Movie</button> */}
           </div>
         </div>
-      </div>
     </div>
   );
 }
