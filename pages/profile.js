@@ -6,11 +6,6 @@ import React, {
 import {
   addDoc,
   collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  query,
-  where,
 } from 'firebase/firestore';
 
 import { UserAuth } from '@components/context/AuthContext';
@@ -46,15 +41,9 @@ export default function ProfilePage() {
   const getSavedMovies = async () => {
     if (!user) return;
 
-    const q = query(collection(db, 'savedMovies'), where('uid', '==', user.uid));
-    const querySnapshot = await getDocs(q);
-
-    const savedMovieList = [];
-
-    querySnapshot.forEach((doc) => {
-      const savedMovie = doc.data();
-      savedMovieList.push(savedMovie);
-    });
+    const res = await fetch(`/api/getSavedMovies?userID=${profile.id}`)
+    const data = await res.json()
+    const savedMovieList = data.movies
 
     setSavedMovies(savedMovieList);
   };
@@ -74,12 +63,11 @@ export default function ProfilePage() {
 
   const handleDeleteMovie = async (movie) => {
     
-    if (!movie.id) return
-    
-    let movieDoc = doc(db, 'savedMovies', movie.id)
-    console.log(movieDoc)
-    await deleteDoc(movieDoc);
-    setSavedMovies(savedMovies.filter((movie) => movie.id !== movieId));
+    const res = await fetch(`/api/unsaveMovie?userID=${profile.id}&movieID=${movie.id}`)
+
+    const newMovieList = savedMovies.filter((m) => m.id !== movie.id);
+    setSavedMovies(newMovieList);
+
   };
 
   useEffect(() => {
@@ -102,8 +90,8 @@ export default function ProfilePage() {
             <li key={review.id}>{!review.movie ? "Loading..." : 
             
                 <div >
-                    {review.movie.name}
-                    <br></br>
+                    <a href={`/movieprofile?movieID=${review.movie.id}`}>{review.movie.name}</a>
+                  <br></br>
                     {review.content}
                 </div>
             
@@ -117,7 +105,7 @@ export default function ProfilePage() {
             <ul>
               {savedMovies.map((movie) => (
                 <li key={movie.id}>
-                  <span>{movie.movieName}</span>
+                  <a href={`/movieprofile?movieID=${movie.id}`}>{movie.name}</a>
                   <button onClick={() => handleDeleteMovie(movie)}>
                     Delete Movie
                   </button>
@@ -125,13 +113,13 @@ export default function ProfilePage() {
               ))}
             </ul>
             <div>
-              <input
+              {/* <input
                 type="text"
                 placeholder="Enter a movie name"
                 value={newMovie}
                 onChange={(e) => setNewMovie(e.target.value)}
-              />
-              <button onClick={handleAddMovie}>Add Movie</button>
+              /> */}
+              {/* <button onClick={handleAddMovie}>Add Movie</button> */}
             </div>
           </div>
         </div>
