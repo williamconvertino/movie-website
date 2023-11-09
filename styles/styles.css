@@ -14,12 +14,47 @@
   height: 100vh;
 }
 
+/* Movie Search CSS */
+
 .movie-search {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
+}
+
+.advanced-options {
+  margin-top: 20px; /* Adjust the top margin as needed */
+  border: 1px solid #ccc; /* Add a border to the advanced options */
+  padding: 10px;
+  background-color: #f8f8f8; /* Set a background color for better visibility */
+  border-radius: 5px; /* Add rounded corners */
+}
+
+.advanced-options h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.advanced-options ul {
+  list-style: none;
+  padding: 0;
+}
+
+.advanced-options li {
+  margin-bottom: 6px;
+}
+
+.advanced-options label {
+  display: block;
+  align-items: left;
+  font-size: 14px;
+}
+
+.advanced-options input[type="checkbox"] {
+  margin-right: 3px; /* Reduced space between checkbox and label */
+  vertical-align: top; /* Align checkboxes to the top */
 }
 
 .title {
@@ -237,4 +272,18 @@ img {
   align-items: center; /* Center content horizontally */
   justify-content: center; /* Center content vertically */
   height: 100vh; /* Use the full viewport height */
+}
+
+.like-dislike-buttons {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 10px;
+}
+
+.like-dislike-buttons button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
 }
