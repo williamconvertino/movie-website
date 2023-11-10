@@ -25,21 +25,22 @@
 }
 
 .advanced-options {
-  margin-top: 20px; /* Adjust the top margin as needed */
-  border: 1px solid #ccc; /* Add a border to the advanced options */
+  margin-top: 10px;
+  border: 1px solid #ccc;
   padding: 10px;
-  background-color: #f8f8f8; /* Set a background color for better visibility */
-  border-radius: 5px; /* Add rounded corners */
+  background-color: #f8f8f8;
+  border-radius: 5px;
 }
 
 .advanced-options h2 {
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .advanced-options ul {
   list-style: none;
   padding: 0;
+  margin-top: 10px;
 }
 
 .advanced-options li {
@@ -48,13 +49,13 @@
 
 .advanced-options label {
   display: block;
-  align-items: left;
   font-size: 14px;
+  text-align: left; /* Left-align the text */
 }
 
 .advanced-options input[type="checkbox"] {
-  margin-right: 3px; /* Reduced space between checkbox and label */
-  vertical-align: top; /* Align checkboxes to the top */
+  margin-right: 5px; /* Adjust the space between the text and checkbox */
+  vertical-align: top;
 }
 
 .title {
