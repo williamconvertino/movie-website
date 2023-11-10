@@ -231,6 +231,40 @@ img {
   margin-left: 10px;
 }
 
+.comments-button-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.comments-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.conversation-comments {
+  list-style: none;
+  padding: 0;
+}
+
+.conversation-comments li {
+  margin-bottom: 5px;
+}
+
+.comment-section {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+/* Error Messages CSS */
+
 .error-message {
   color: red;
   margin-top: 10px; 

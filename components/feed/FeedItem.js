@@ -10,6 +10,11 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
     const [rating, setRating] = useState('Loading...')
     const [time, setTime] = useState('Loading...')
     
+    const [commentsVisible, setCommentsVisible] = useState(false);
+
+    const toggleCommentsVisibility = () => {
+        setCommentsVisible(!commentsVisible);
+    };
 
     const populateData = async () => {
     
@@ -56,7 +61,24 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
                     <p>Rating: {rating}</p>
                     <p>Review: {review.content}</p>
                     <p>{time}</p>
+
+                    <button className="toggle-comments" onClick={toggleCommentsVisibility}>
+                        {commentsVisible ? 'Hide Comments' : 'Show Comments'}
+                    </button>
                 </div>
+
+                {commentsVisible && (
+                    <div className="comment-section">
+                        <ul>
+                        {review.comments?.map((comment) => (
+                            <li key={comment.id}>
+                            <strong>{comment.user}:</strong> {comment.text}
+                            </li>
+                        ))}
+                        </ul>
+                        {/* Add any additional comment-related UI elements here */}
+                    </div>
+                )}
                 {/* <ul>
                     {review.comments.map((comment) => (
                     <li key={comment.id}>
@@ -67,6 +89,8 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
                 {/* <button onClick={() => handleAddCommentClick(review.id)}>
                     Add Comment
                 </button> */}
+
+                {/* Render comments button */}
             </div>
         </div>
     )

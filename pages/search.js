@@ -21,23 +21,24 @@ export default function SearchPage() {
         </button>
 
         {showAdvancedOptions && (
-            <div className="advanced-options">
-              <h2>Advanced Search Options</h2>
-              <ul>
-                <li>
-                  <label>
-                    <input type="checkbox" /> Criterion 1
-                  </label>
-                </li>
-                <li>
-                  <label>
-                    <input type="checkbox" /> Criterion 2
-                  </label>
-                </li>
-              </ul>
-            </div>
-          )}
+          <div className="advanced-options">
+            <h2>Advanced Search Options</h2>
+            <ul>
+              <li>
+                <label>
+                  <input type="checkbox" /> Filter by genre
+                </label>
+              </li>
+              <li>
+                <label>
+                  <input type="checkbox" /> Sort by name
+                </label>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
+
     </div>
   );
 }
