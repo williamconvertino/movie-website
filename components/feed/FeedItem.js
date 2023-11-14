@@ -14,7 +14,7 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
     const [rating, setRating] = useState('Loading...')
     const [time, setTime] = useState('Loading...')
     const [numLikes, setNumLikes] = useState(review.numLikes)
-    const [numDislikes, setNumDislikes] = useState(review.numLikes)
+    const [numDislikes, setNumDislikes] = useState(review.numDislikes)
     
     const [likeState, setLikeState] = useState(0)
 
@@ -68,15 +68,19 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
             Cookies.set(`user-${profile.id}&review-${review.id}`, 0)
             setNumLikes(numLikes - 1)
             setLikeState(0)
+            await fetch(`/api/updateReviewLikes?reviewID=${review.id}&likeValue=-1`)
         } else if (likeValue == -1) {
             Cookies.set(`user-${profile.id}&review-${review.id}`, 1)
             setNumLikes(numLikes + 1)
             setNumDislikes(numDislikes - 1)
             setLikeState(1)
+            await fetch(`/api/updateReviewLikes?reviewID=${review.id}&likeValue=1`)
+            await fetch(`/api/updateReviewDislikes?reviewID=${review.id}&likeValue=-1`)
         } else {
             Cookies.set(`user-${profile.id}&review-${review.id}`, 1)
             setNumLikes(numLikes + 1)
             setLikeState(1)
+            await fetch(`/api/updateReviewLikes?reviewID=${review.id}&likeValue=1`)
         }
 
     }
@@ -90,15 +94,19 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
             Cookies.set(`user-${profile.id}&review-${review.id}`, 0)
             setNumDislikes(numDislikes - 1)
             setLikeState(0)
+            await fetch(`/api/updateReviewDislikes?reviewID=${review.id}&likeValue=-1`)
         } else if (likeValue == 1) {
             Cookies.set(`user-${profile.id}&review-${review.id}`, -1)
             setNumLikes(numLikes - 1)
             setNumDislikes(numDislikes + 1)
             setLikeState(-1)
+            await fetch(`/api/updateReviewLikes?reviewID=${review.id}&likeValue=-1`)
+            await fetch(`/api/updateReviewDislikes?reviewID=${review.id}&likeValue=1`)
         } else {
             Cookies.set(`user-${profile.id}&review-${review.id}`, -1)
             setNumDislikes(numDislikes + 1)
             setLikeState(-1)
+            await fetch(`/api/updateReviewDislikes?reviewID=${review.id}&likeValue=1`)
         }
     }
 
