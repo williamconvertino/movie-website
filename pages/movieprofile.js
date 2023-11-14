@@ -21,7 +21,7 @@ const MovieProfile = () => {
 
     const onSave = async () => {
         if (!movieID) return
-
+        if (!profile) return;
         fetch(`/api/saveMovie?userID=${profile.id}&movieID=${movieID}`)
             .then((response) => response.json())
             .then((data) => {
@@ -34,7 +34,7 @@ const MovieProfile = () => {
 
     const loadMovie = async () => {
         if (!movieID) return;
-        fetch(`/api/getMovieID?movieID=${movieID}`)
+                fetch(`/api/getMovieID?movieID=${movieID}`)
             .then((response) => response.json())
             .then((data) => {
                 setMovie(data.movieData);
@@ -46,6 +46,7 @@ const MovieProfile = () => {
 
     const loadUserReviews = async () => {
         if (!movieID) return;
+        
         fetch(`/api/getReviewMovie?movieID=${movieID}`)
             .then((response) => response.json())
             .then((data) => {
@@ -83,7 +84,7 @@ const MovieProfile = () => {
                     </div>
                     <div className="user-ratings">
                         <h2>Recent Reviews</h2>
-                        <a href={`/review?movieID=${movie.id}`}>Write a review</a>
+                        {profile && <a href={`/review?movieID=${movie.id}`}>Write a review</a>}
                         {userReviews.map((review) => (<div key={review.id}><FeedItem review={review}/></div>))}
                     </div>
                     
