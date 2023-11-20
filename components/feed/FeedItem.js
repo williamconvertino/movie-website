@@ -5,15 +5,33 @@ import {
 
 export default function FeedItem ({ review, handleAddCommentClick}) {
     
-    const [userName, setUserName] = useState('Loading...')
-    const [movie, setMovie] = useState(null)
-    const [rating, setRating] = useState('Loading...')
-    const [time, setTime] = useState('Loading...')
+    const [userName, setUserName] = useState('Loading...');
+    const [movie, setMovie] = useState(null);
+    const [rating, setRating] = useState('Loading...');
+    const [time, setTime] = useState('Loading...');
+    const [commentText, setCommentText] = useState('');
+    const [showAddComment, setShowAddComment] = useState(false);
     
     const [commentsVisible, setCommentsVisible] = useState(false);
 
     const toggleCommentsVisibility = () => {
         setCommentsVisible(!commentsVisible);
+    };
+
+    const handleAddComment = () => {
+        setShowAddComment(true);
+    };
+
+    //not too sure how to handle the handleAddCommentClick
+    const handleSubmitComment = () => {
+        handleAddCommentClick(review, {
+          user: userName, 
+          text: commentText,
+        });
+    
+        // Reset the comment text and hide the comment input
+        setCommentText('');
+        setShowAddComment(false);
     };
 
     const populateData = async () => {
@@ -65,7 +83,19 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
                     <button className="toggle-comments" onClick={toggleCommentsVisibility}>
                         {commentsVisible ? 'Hide Comments' : 'Show Comments'}
                     </button>
+                    <button onClick={handleAddComment}>Add Comment</button>
                 </div>
+
+                {showAddComment && (
+                    <div>
+                        <textarea
+                        placeholder="Add your comment..."
+                        value={commentText}
+                        onChange={(e) => setCommentText(e.target.value)}
+                        />
+                        <button onClick={handleSubmitComment}>Submit Comment</button>
+                    </div>
+                )}
 
                 {commentsVisible && (
                     <div className="comment-section">
@@ -76,21 +106,16 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
                             </li>
                         ))}
                         </ul>
-                        {/* Add any additional comment-related UI elements here */}
                     </div>
                 )}
-                {/* <ul>
-                    {review.comments.map((comment) => (
+                
+                {<ul>
+                    {review.comments && review.comments.map((comment) => (
                     <li key={comment.id}>
                         <strong>{comment.user}:</strong> {comment.text}
                     </li>
                     ))}
-                </ul> */}
-                {/* <button onClick={() => handleAddCommentClick(review.id)}>
-                    Add Comment
-                </button> */}
-
-                {/* Render comments button */}
+                </ul>}
             </div>
         </div>
     )

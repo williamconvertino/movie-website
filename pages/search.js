@@ -5,6 +5,9 @@ import TopBar from '@components/TopBar';
 
 export default function SearchPage() {
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+  const [genre, setGenre] = useState('');
+  const [startYear, setStartYear] = useState('');
+  const [endYear, setEndYear] = useState('');
 
   const toggleAdvancedOptions = () => {
     setShowAdvancedOptions(!showAdvancedOptions);
@@ -26,12 +29,31 @@ export default function SearchPage() {
             <ul>
               <li>
                 <label>
-                  <input type="checkbox" /> Filter by genre
+                  <input type="checkbox" /> Filter by genre:
+                  <input
+                    type="text"
+                    placeholder = "Genre"
+                    value={genre}
+                    onChange={(e) => setGenre(e.target.value)}
+                  />
                 </label>
               </li>
               <li>
                 <label>
-                  <input type="checkbox" /> Sort by name
+                  <input type="checkbox" /> Filter by year:
+                  <input
+                    type="text"
+                    placeholder="Start year"
+                    value={startYear}
+                    onChange={(e) => setStartYear(e.target.value)}
+                  />
+                  <span> to </span>
+                  <input
+                    type="text"
+                    placeholder="End year"
+                    value={endYear}
+                    onChange={(e) => setEndYear(e.target.value)}
+                  />
                 </label>
               </li>
             </ul>

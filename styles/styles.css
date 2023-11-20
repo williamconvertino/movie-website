@@ -30,6 +30,7 @@
   padding: 10px;
   background-color: #f8f8f8;
   border-radius: 5px;
+  text-align: center;
 }
 
 .advanced-options h2 {
@@ -54,8 +55,12 @@
 }
 
 .advanced-options input[type="checkbox"] {
-  margin-right: 5px; /* Adjust the space between the text and checkbox */
+  margin-right: -60px; /* Adjust the space between the text and checkbox */
   vertical-align: top;
+}
+
+.advanced-options input[type="text"] {
+  margin-left: 10px; /* Adjust the space between the labels and text boxes */
 }
 
 .title {
@@ -321,4 +326,13 @@ img {
   border: none;
   cursor: pointer;
   margin-right: 10px;
+}
+
+/* Add Movie Page CSS */
+.add-movie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
