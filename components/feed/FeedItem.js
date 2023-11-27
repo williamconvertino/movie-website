@@ -52,7 +52,7 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
             <div key={review.id} className="conversation">
                 <div className="conversation-header">
                     <p>Username: {userName}</p>
-                    {movie ? <a href={`/movieprofile?id=${movie.id}`}><p>Movie: {movie.name}</p></a> : <p>"Loading..."</p>}
+                    {movie ? <a href={`/movieprofile?movieID=${movie.id}`}><p>Movie: {movie.name}</p></a> : <p>"Loading..."</p>}
                     <p>Rating: {rating}</p>
                     <p>Review: {review.content}</p>
                     <p>{time}</p>

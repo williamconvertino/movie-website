@@ -2,15 +2,15 @@ const { addReviewEntry } = require("../../backend/review_backend.js");
 
 export default async (req, res) => {
 
-    const userReference = req.query.userRef;
-    const chatText = req.query.chatText;
-    const movieReference = req.query.movieRef;
+    const userID = req.query.userID;
+    const content = req.query.content;
+    const movieID = req.query.movieID;
 
     try {
-        await addReviewEntry(userReference, chatText, movieReference);
-        res.status(200).json({ userReference, chatText });
+        await addReviewEntry(userID, content, movieID);
+        res.status(200).json({ userID, content, movieID });
     } catch (error) {
-        res.status(500).json({ error: "Failed to create thread." });
+        res.status(500).json({ error: "Failed to create review." });
     }
     
 }

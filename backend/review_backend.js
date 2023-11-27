@@ -13,29 +13,27 @@ const {
 
 const { db } = require('./firebase_backend')
 
-const addReviewEntry = async (userReference, chatText, movieRef) => {
+const addReviewEntry = async (userID, content, movieID) => {
     const chatRef = collection(db, "reviews");
     await addDoc(chatRef, {
-        user: doc(db, "users/", userReference),
-        content: chatText,
-        movie: doc(db, "movieProfiles/", movieRef),
+        user: userID,
+        content: content,
+        movie: movieID,
         DateTimeCreated: Timestamp.now(),
         numLikes: 0,
         numDislikes: 0
     });
 }
 
-const getUserReviews = async (userID, limit) => {
-    if (!limit) {
-        limit = 10;
-    }
-    const userRef = doc(db, "users/", userID);
+const getUserReviews = async (userID, limit=10) => {
+    
     const chatsRef = collection(db, "reviews");
-    const q = query(chatsRef, where("user", "==", userRef), limit(limit));
+    const q = query(chatsRef, where("user", "==", userID));
     const querySnapshot = await getDocs(q);
     let chatData = [];
     querySnapshot.forEach((doc) => {
-        const data = doc.get("content");
+        const data = doc.data();
+        data.id = doc.id;
         chatData.push(data);
     });
     return chatData;

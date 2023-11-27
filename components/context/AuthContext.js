@@ -59,7 +59,9 @@ export const AuthContextProvider = ({ children }) => {
     if (!user) return;
     const docRef = doc(db, 'users', user.uid);
     const docSnapshot = await getDoc(docRef);
-    setProfile(docSnapshot.data())
+    const data = docSnapshot.data()
+    data.id = user.uid
+    setProfile(data)
   }
 
   const logOut = async () => {

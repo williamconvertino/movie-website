@@ -1,27 +1,94 @@
-import React, { useState } from "react";
-import TopBar from "@components/TopBar";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import { useRouter } from 'next/router';
+
+import { UserAuth } from '@components/context/AuthContext';
+import TopBar from '@components/TopBar';
 
 export default function ReviewForm() {
-  const [movieTitle, setMovieTitle] = useState("");
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
-  const [reviews, setReviews] = useState([]);
+
+  const {user, profile, emailSignUp, emailSignIn, logOut} = UserAuth()
+
+  const router = useRouter()
+  const {movieID} = router.query
+
+  const [movie, setMovie] = useState(null);
+  const [rating, setRating] = useState(null);
+  const [content, setContent] = useState("");
+
+  const [loadState, setLoadState] = useState("loading");
+  const [submitState, setSubmitState] = useState("idle");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    
+    if (e) {
+      e.preventDefault();
+    }
 
-    const newReview = {
-      movieTitle: movieTitle,
-      rating: rating,
-      comment: comment,
-    };
+    if (content.length < 1) {
+      return
+    }
 
-    setReviews([...reviews, newReview]);
+    if (!movie || !user) {
+      throw new Error("Movie not loaded...")
+      return
+    }
 
-    setMovieTitle("");
-    setRating(0);
-    setComment("");
+    if (loadState != "ready") {
+      setSubmitState("ready")
+      return
+    }
+
+
+    // const newReview = {
+    //   movie: movie.id,
+    //   content: content,
+    //   DateTimeCreated: Timestamp.now(),
+    //   user: profile.id
+    // };
+
+    fetch(`/api/newReview?movieID=${movie.id}&content=${content}&userID=${user.uid}`)
+        .then((response) => response.json())
+        .then((data) => {
+          router.push(`/movieprofile?movieID=${movie.id}`)
+        })
+        .catch((error) => {
+            console.error('Error fetching search results:', error);
+    });
+
   }
+
+  const loadMovie = async () => {
+    if (!movieID) return;
+    
+    fetch(`/api/getMovieID?movieID=${movieID}`)
+        .then((response) => response.json())
+        .then((data) => {
+            setMovie(data.movieData);
+
+            setLoadState("ready")
+
+            if (submitState == "ready") {
+              handleSubmit()
+            }
+
+        })
+        .catch((error) => {
+            console.error('Error fetching search results:', error);
+        });
+  }
+
+  const loadRating = async () => {
+
+  }
+
+  useEffect(() => {
+    loadMovie()
+    loadRating()
+  }, [movieID])
 
   return (
     <div>
@@ -29,16 +96,17 @@ export default function ReviewForm() {
       <div className="review-page">
       <br></br>
       <br></br>
-      <h1>Review A Movie</h1>
+      <h1>{movie ? `Review the movie "${movie.name}"` : "Loading..."}</h1>
+      
       <form onSubmit={handleSubmit}>
-          <input
+          {/* <input
             placeholder="Movie Title"
             type="text"
             value={movieTitle}
             onChange={(e) => setMovieTitle(e.target.value)}
-          />
+          /> */}
 
-          <label>Rating (1-5): 
+          {/* <label>Rating (1-5): 
           <input
             type="number"
             value={rating}
@@ -46,17 +114,17 @@ export default function ReviewForm() {
             min="0"
             max="5"
           />
-</label>
+</label> */}
         
           <textarea
             placeholder="Review movie here ..."
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
 
         <button type="submit">Submit Review</button>
       </form>
-      <div>
+      {/* <div>
         <h1>List of Reviews</h1>
         <ul>
           {reviews.map((review, index) => (
@@ -70,7 +138,7 @@ export default function ReviewForm() {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
       </div>
     </div>
   );

@@ -6,12 +6,6 @@ import React, {
 import {
   addDoc,
   collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
 } from 'firebase/firestore';
 
 import { UserAuth } from '@components/context/AuthContext';
@@ -21,47 +15,35 @@ import { db } from '@firebase';
 export default function ProfilePage() {
   const {user, profile, emailSignUp, emailSignIn, logOut} = UserAuth()
   
-  const [ratedMovies, setRatedMovies] = useState([]);
-  const [ratingMap, setRatingMap] = useState({});
-
+  const [reviews, setReviews] = useState([]);
+  
   const [savedMovies, setSavedMovies] = useState([]);
   const [newMovie, setNewMovie] = useState('');
 
-  const getRatedMovies = async () => {
-    if (!user) return;
-    const docRef = doc(db, 'movieRatings', user.uid)
-    const docSnapshot = await getDoc(docRef);
-    
-    const data = docSnapshot.data()
-    if (!data) return
-    const ratings = data.ratings
-    setRatingMap(ratings)
+  const getReviews = async () => {
+    if (!profile) return;
+    const res = await fetch(`/api/getReviewUser?userID=${profile.id}`)
+    const data = await res.json()
+    const reviews = data.reviewData
 
-    const movieList = []
-    
-    for (var movieID of Object.keys(ratings)) {
-      const movieRef = doc(db, 'movieProfiles', movieID);
-      const movieSnapshot = await getDoc(movieRef);
-      const movie = movieSnapshot.data()
-      movie.id = movieID
-      movieList.push(movie)
-    }
+    const movieTasks = reviews.map(async (review) => {
+      const res = await fetch(`/api/getMovieID?movieID=${review.movie}`)
+      const data = await res.json()
+      const movie = data.movieData
+      review.movie = movie
+    })
 
-    setRatedMovies(movieList)
+    await Promise.all(movieTasks)
+
+    setReviews(reviews)  
   }
 
   const getSavedMovies = async () => {
     if (!user) return;
 
-    const q = query(collection(db, 'savedMovies'), where('uid', '==', user.uid));
-    const querySnapshot = await getDocs(q);
-
-    const savedMovieList = [];
-
-    querySnapshot.forEach((doc) => {
-      const savedMovie = doc.data();
-      savedMovieList.push(savedMovie);
-    });
+    const res = await fetch(`/api/getSavedMovies?userID=${profile.id}`)
+    const data = await res.json()
+    const savedMovieList = data.movies
 
     setSavedMovies(savedMovieList);
   };
@@ -81,18 +63,17 @@ export default function ProfilePage() {
 
   const handleDeleteMovie = async (movie) => {
     
-    if (!movie.id) return
-    
-    let movieDoc = doc(db, 'savedMovies', movie.id)
-    console.log(movieDoc)
-    await deleteDoc(movieDoc);
-    setSavedMovies(savedMovies.filter((movie) => movie.id !== movieId));
+    const res = await fetch(`/api/unsaveMovie?userID=${profile.id}&movieID=${movie.id}`)
+
+    const newMovieList = savedMovies.filter((m) => m.id !== movie.id);
+    setSavedMovies(newMovieList);
+
   };
 
   useEffect(() => {
-    getRatedMovies();
+    getReviews();
     getSavedMovies();
-  }, [, user]);
+  }, [profile]);
 
   return (
     <div>
@@ -103,38 +84,44 @@ export default function ProfilePage() {
         <br></br>
         <h1>Your Profile</h1>
         <p>Username: {profile ? profile.username : 'Loading...'}</p>
-        <h2>Previously Rated Movies</h2>
+        <h2>Previously Reviewed</h2>
         <ul>
-          {ratedMovies.map((movie) => (
-            <li key={movie.id}>{movie.name} : {ratingMap[movie.id]} stars</li>
+          {reviews.map((review) => (
+            <li key={review.id}>{!review.movie ? "Loading..." : 
+            
+                <div >
+                    <a href={`/movieprofile?movieID=${review.movie.id}`}>{review.movie.name}</a>
+                  <br></br>
+                    {review.content}
+                </div>
+            
+            }</li>
           ))}
         </ul>
+      </div>
 
-        <div className="saved-movies">
-          <div className="movie-input-container">
-            <h2>Saved Movies</h2>
-            <ul>
-              {savedMovies.map((movie) => (
-                <li key={movie.id}>
-                  <span>{movie.movieName}</span>
-                  <button onClick={() => handleDeleteMovie(movie)}>
-                    Delete Movie
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <div>
-              <input
-                type="text"
-                placeholder="Enter a movie name"
-                value={newMovie}
-                onChange={(e) => setNewMovie(e.target.value)}
-              />
-              <button onClick={handleAddMovie}>Add Movie</button>
-            </div>
+      <div className="saved-movies">
+          <h2>Saved Movies</h2>
+          <ul>
+            {savedMovies.map((movie) => (
+              <li key={movie.id}>
+                <a href={`/movieprofile?movieID=${movie.id}`}>{movie.name}</a>
+                <button onClick={() => handleDeleteMovie(movie)}>
+                  Delete Movie
+                </button>
+              </li>
+            ))}
+          </ul>
+          <div>
+            {/* <input
+              type="text"
+              placeholder="Enter a movie name"
+              value={newMovie}
+              onChange={(e) => setNewMovie(e.target.value)}
+            /> */}
+            {/* <button onClick={handleAddMovie}>Add Movie</button> */}
           </div>
         </div>
-      </div>
     </div>
   );
 }
