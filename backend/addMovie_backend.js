@@ -1,16 +1,32 @@
-// addMovie_backend.js
-
-const { collection, doc, setDoc, arrayUnion } = require('firebase/firestore');
-const { db } = require('../firebase'); // Adjust the path to your firebase.js
+const {
+    getFirestore,
+    collection,
+    doc,
+    setDoc,
+    arrayUnion,
+} = require("firebase/firestore");
+const { app } = require("../firebase/firebase.js");
+const censorInput = require('./censorInput.js'); 
 
 const addMovie = async (movie) => {
-    try {
-        // Add movie to collection
-        const moviesRef = collection(db, "movies");
-        const movieDocRef = doc(moviesRef, movie.id);
-        await setDoc(movieDocRef, movie);
+    const db = getFirestore(app);
 
-        // Update users' watchlist if applicable
+   
+    const censorResult = censorInput(movie);
+    if (censorResult.error) {
+        console.error(censorResult.error);
+        throw new Error(censorResult.error);
+    }
+
+    const movieToAdd = censorResult.approved ? movie : censorResult.censored;
+
+    try {
+
+        const moviesRef = collection(db, "movies");
+        const movieDocRef = doc(moviesRef, movie.id); 
+        await setDoc(movieDocRef, movieToAdd); 
+
+
         if (movie.users && movie.users.length > 0) {
             const usersRef = collection(db, "users");
 
