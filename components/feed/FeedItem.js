@@ -3,7 +3,7 @@ import {
   useState,
 } from 'react';
 
-export default function FeedItem ({ review, handleAddCommentClick}) {
+export default function FeedItem ({ review }) {
     
     const [userName, setUserName] = useState('Loading...');
     const [movie, setMovie] = useState(null);
@@ -24,10 +24,10 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
 
     //not too sure how to handle the handleAddCommentClick
     const handleSubmitComment = () => {
-        handleAddCommentClick(review, {
+        /*handleAddCommentClick(review, {
           user: userName, 
           text: commentText,
-        });
+        });*/
     
         // Reset the comment text and hide the comment input
         setCommentText('');

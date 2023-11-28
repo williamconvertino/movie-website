@@ -4,13 +4,23 @@ import SearchResults from '@components/SearchResultsComponent';
 import TopBar from '@components/TopBar';
 
 export default function SearchPage() {
-  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+  const [showFilterOptions, setShowFilterOptions] = useState(false);
+  const [showSortOptions, setShowSortOptions] = useState(false);
   const [genre, setGenre] = useState('');
   const [startYear, setStartYear] = useState('');
   const [endYear, setEndYear] = useState('');
+  const [sortOption, setSortOption] = useState('');
 
-  const toggleAdvancedOptions = () => {
-    setShowAdvancedOptions(!showAdvancedOptions);
+  const toggleFilterOptions = () => {
+    setShowFilterOptions(!showFilterOptions);
+  };
+
+  const toggleSortOptions = () => {
+    setShowSortOptions(!showSortOptions);
+  };
+
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value);
   };
 
   return (
@@ -19,17 +29,24 @@ export default function SearchPage() {
       <div className = "movie-search">
         <h1>Search Movies</h1>
         <SearchResults/>
-        <button onClick={toggleAdvancedOptions}>
-            {showAdvancedOptions ? 'Hide Advanced Options' : 'Show Advanced Options'}
-        </button>
 
-        {showAdvancedOptions && (
+        <div className="options-buttons">
+          <button onClick={toggleFilterOptions}>
+            {showFilterOptions ? 'Hide Filtering Options' : 'Show Filtering Options'}
+          </button>
+
+          <button onClick={toggleSortOptions}>
+            {showSortOptions ? 'Hide Sorting Options' : 'Show Sorting Options'}
+          </button>
+        </div>
+
+        {showFilterOptions && (
           <div className="advanced-options">
-            <h2>Advanced Search Options</h2>
+            <h2>Filtering Options</h2>
             <ul>
               <li>
                 <label>
-                  <input type="checkbox" /> Filter by genre:
+                  Filter by genre:
                   <input
                     type="text"
                     placeholder = "Genre"
@@ -40,7 +57,7 @@ export default function SearchPage() {
               </li>
               <li>
                 <label>
-                  <input type="checkbox" /> Filter by year:
+                  Filter by year:
                   <input
                     type="text"
                     placeholder="Start year"
@@ -54,6 +71,25 @@ export default function SearchPage() {
                     value={endYear}
                     onChange={(e) => setEndYear(e.target.value)}
                   />
+                </label>
+              </li>
+            </ul>
+          </div>
+        )}
+
+        {showSortOptions && (
+          <div className="advanced-options">
+            <h2>Sorting Options</h2>
+            <ul>
+              <li>
+                <label>
+                  Sort by:
+                  <select value={sortOption} onChange={handleSortChange}>
+                    <option value="">Select an option</option>
+                    <option value="year">Year</option>
+                    <option value="overallRating">Overall Rating</option>
+                    <option value="numRatings">Number of Ratings</option>
+                  </select>
                 </label>
               </li>
             </ul>
