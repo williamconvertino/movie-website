@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { UserAuth } from "@components/context/AuthContext";
 import TopBar from "@components/TopBar";
 import StarRating from "@components/StarRating";
-import { FaStar } from "react-icons/fa";
 
 export default function ReviewForm() {
   const { user, profile, emailSignUp, emailSignIn, logOut } = UserAuth();
@@ -14,8 +13,6 @@ export default function ReviewForm() {
   const { movieID } = router.query;
 
   const [movie, setMovie] = useState(null);
-  const [rating, setRating] = useState(null);
-  const [hover, setHover] = useState(null);
   const [content, setContent] = useState("");
 
   const [loadState, setLoadState] = useState("loading");
@@ -39,13 +36,6 @@ export default function ReviewForm() {
       setSubmitState("ready");
       return;
     }
-
-    // const newReview = {
-    //   movie: movie.id,
-    //   content: content,
-    //   DateTimeCreated: Timestamp.now(),
-    //   user: profile.id
-    // };
 
     fetch(
       `/api/newReview?movieID=${movie.id}&content=${content}&userID=${user.uid}`
@@ -100,28 +90,7 @@ export default function ReviewForm() {
             onChange={(e) => setContent(e.target.value)}
           />
           
-          <div style={{display: 'flex'}}>
-            {[...Array(5)].map((star, index) => {
-            const currentRating = index + 1;
-            return (
-              <label key={index} style={{ display: 'inline-block', marginRight: '5px' }}>
-                <input style={{width: 0}}
-                  type="radio"
-                  name="rating"
-                  value={currentRating}
-                  onClick={() => setRating(currentRating)}
-                />
-                  <FaStar 
-                    className='star' 
-                    size={20}
-                    color={currentRating <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
-                    onMouseEnter={() => setHover(currentRating)}
-                    onMouseLeave={() => setHover(null)}
-                    />
-              </label>
-            );
-          })}
-          </div>
+          <StarRating />
 
           <button type="submit">Submit Review</button>
         </form>

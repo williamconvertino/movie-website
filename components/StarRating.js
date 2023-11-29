@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 
 export default function StarRating() {
@@ -12,15 +12,14 @@ export default function StarRating() {
             const currentRating = index + 1;
             return (
               <label>
-                <input
+                <input style={{width: 0}}
                   type="radio"
                   name="rating"
                   value={currentRating}
                   onClick={() => setRating(currentRating)}
                 />
-                  <FaStar 
-                    className='star' 
-                    size={50}
+                  <FaStar  
+                    size={20}
                     color={currentRating <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
                     onMouseEnter={() => setHover(currentRating)}
                     onMouseLeave={() => setHover(null)}
