@@ -22,6 +22,10 @@
     height: 100vh;
   }
 
+  .options-buttons {
+    display: flex;
+  }
+
   .review-page {
     display: flex;
     flex-direction: column;

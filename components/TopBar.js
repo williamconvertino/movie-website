@@ -13,6 +13,7 @@ export default function TopBar ({showLogin = true}) {
             {user ? (
                 <>
                     <div className = "buttons">
+                        <a href="/addmovie">Add Movie</a>
                         <a href="/search">Movie Search</a>
                         <a href="/usersearch">User Search</a>
                         <a href="/profile">Profile</a>

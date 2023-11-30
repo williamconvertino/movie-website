@@ -7,15 +7,38 @@ import Cookies from 'js-cookie';
 
 import { UserAuth } from '@components/context/AuthContext';
 
-export default function FeedItem ({ review, handleAddCommentClick}) {
+export default function FeedItem ({ review }) {
     
-    const [userName, setUserName] = useState('Loading...')
-    const [movie, setMovie] = useState(null)
-    const [rating, setRating] = useState('Loading...')
-    const [time, setTime] = useState('Loading...')
+    const [userName, setUserName] = useState('Loading...');
+    const [movie, setMovie] = useState(null);
+    const [rating, setRating] = useState('Loading...');
+    const [time, setTime] = useState('Loading...');
     const [numLikes, setNumLikes] = useState(review.numLikes)
     const [numDislikes, setNumDislikes] = useState(review.numDislikes)
+    const [commentText, setCommentText] = useState('');
+    const [showAddComment, setShowAddComment] = useState(false);
     
+    const [commentsVisible, setCommentsVisible] = useState(false);
+
+    const toggleCommentsVisibility = () => {
+        setCommentsVisible(!commentsVisible);
+    };
+
+    const handleAddComment = () => {
+        setShowAddComment(true);
+    };
+
+    //not too sure how to handle the handleAddCommentClick
+    const handleSubmitComment = () => {
+        /*handleAddCommentClick(review, {
+          user: userName, 
+          text: commentText,
+        });*/
+    
+        // Reset the comment text and hide the comment input
+        setCommentText('');
+        setShowAddComment(false);
+    };
     const [likeState, setLikeState] = useState(0)
 
     const {user, profile} = UserAuth()
@@ -133,17 +156,43 @@ export default function FeedItem ({ review, handleAddCommentClick}) {
                     </div>
                     <p>{likeState == 1 && "(Liked)"}</p>
                     <p>{likeState == -1 && "(Disliked)"}</p>
+
+                    <button className="toggle-comments" onClick={toggleCommentsVisibility}>
+                        {commentsVisible ? 'Hide Comments' : 'Show Comments'}
+                    </button>
+                    <button onClick={handleAddComment}>Add Comment</button>
                 </div>
-                {/* <ul>
-                    {review.comments.map((comment) => (
+
+                {showAddComment && (
+                    <div>
+                        <textarea
+                        placeholder="Add your comment..."
+                        value={commentText}
+                        onChange={(e) => setCommentText(e.target.value)}
+                        />
+                        <button onClick={handleSubmitComment}>Submit Comment</button>
+                    </div>
+                )}
+
+                {commentsVisible && (
+                    <div className="comment-section">
+                        <ul>
+                        {review.comments?.map((comment) => (
+                            <li key={comment.id}>
+                            <strong>{comment.user}:</strong> {comment.text}
+                            </li>
+                        ))}
+                        </ul>
+                    </div>
+                )}
+                
+                {<ul>
+                    {review.comments && review.comments.map((comment) => (
                     <li key={comment.id}>
                         <strong>{comment.user}:</strong> {comment.text}
                     </li>
                     ))}
-                </ul> */}
-                {/* <button onClick={() => handleAddCommentClick(review.id)}>
-                    Add Comment
-                </button> */}
+                </ul>}
             </div>
         </div>
     )
