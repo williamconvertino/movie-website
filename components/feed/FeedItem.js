@@ -44,7 +44,7 @@ export default function FeedItem ({ review }) {
     const {user, profile} = UserAuth()
 
     const populateData = async () => {
-    
+        if (!review.user) return
         const res = await fetch(`/api/getUserID?userID=${review.user}`)
         const data = await res.json()
         const user = data.userData
