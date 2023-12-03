@@ -28,7 +28,7 @@ export default function SearchPage() {
       <TopBar />
       <div className = "movie-search">
         <h1>Search Movies</h1>
-        <SearchResults/>
+        <SearchResults genre={genre} startYear={startYear} endYear={endYear} sortOption={sortOption}/>
 
         <div className="options-buttons">
           <button onClick={toggleFilterOptions}>
@@ -85,10 +85,10 @@ export default function SearchPage() {
                 <label>
                   Sort by:
                   <select value={sortOption} onChange={handleSortChange}>
-                    <option value="">Select an option</option>
-                    <option value="year">Year</option>
-                    <option value="overallRating">Overall Rating</option>
-                    <option value="numRatings">Number of Ratings</option>
+                    <option value="">Name</option>
+                    <option value="year">Year (desc)</option>
+                    <option value="overallRating">Overall Rating (desc)</option>
+                    <option value="numRatings">Number of Ratings (desc)</option>
                   </select>
                 </label>
               </li>

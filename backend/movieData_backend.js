@@ -11,24 +11,59 @@ const {
 
 const { db } = require('./firebase_backend')
 
-const getMovieData = async (searchQuery) => {
+const getMovieData = async (searchQuery, genre, startYear, endYear, sortOption) => {
     
+    
+    if (startYear == '' || !startYear) {
+        startYear = 0
+    } else {
+        startYear = Number(startYear);
+    }
+
+    if (endYear == '' || !endYear) {
+        endYear = 9999
+    } else {
+        endYear = Number(endYear);
+    }
+    
+    const genreList = (!genre || genre == '') ? [] : genre.split(",").map((item) => item.trim().toLowerCase())
+
     searchQuery = searchQuery.toLowerCase().trim();
 
     const moviesRef = collection(db, "movieProfiles");
     
-    const q = query(
+    console.log(searchQuery, genreList, startYear, endYear, sortOption)
+    
+
+    let q = query(
         moviesRef,
-        where("searchName", ">=", searchQuery), // StartAt partial query
-        where("searchName", "<=", searchQuery + "\uf8ff") // EndAt partial query
+        where("searchName", ">=", searchQuery),
+        where("searchName", "<=", searchQuery + "\uf8ff"),
+        orderBy("searchName")
     );
+
+    genreList.forEach((genre) => {q = query(q, where("genres", "array-contains", genre))})
+    
+
     const querySnapshot = await getDocs(q);
     let movieData = [];
     querySnapshot.forEach((doc) => {
+        
         const data = doc.data();
         data.id = doc.id;
-        movieData.push(data);
+        if (data.releaseDate >= startYear && data.releaseDate <= endYear) {
+            movieData.push(data);
+        }
     });
+
+    if (sortOption == "year") {
+        movieData.sort((a, b) => a.releaseDate - b.releaseDate);
+    } else if (sortOption == "overallRating") {
+        movieData.sort((a, b) => b.averageRating - a.averageRating);
+    } else if (sortOption == "numRatings") {
+        movieData.sort((a, b) => b.numRatings - a.numRatings);
+    }
+
     return movieData;
 }
 

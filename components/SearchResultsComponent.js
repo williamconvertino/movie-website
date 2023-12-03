@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 
-import Link from 'next/link';
-
-export default function SearchResultsComponent() {
+export default function SearchResultsComponent({genre, startYear, endYear, sortOption}) {
 
 
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
   const onSearch = async () => {
-    fetch(`/api/getMovies?searchQuery=${query}`)
+    
+    fetch(`/api/getMovies?searchQuery=${query}&genre=${genre}&startYear=${startYear}&endYear=${endYear}&sortOption=${sortOption}`)
         .then((response) => response.json())
         .then((data) => {
           setSuggestions(data.movieData);
@@ -57,9 +56,9 @@ export default function SearchResultsComponent() {
       {suggestions.length > 0 && (
         <ul>
           {suggestions.map((suggestion) => (
-            <li key={suggestion.id}>
-              <Link href={`/movieprofile?movieID=${suggestion.id}`}>{suggestion.name}</Link>
-            </li>
+            <div key={suggestion.id}>
+              <a href={`/movieprofile?movieID=${suggestion.id}`}> {`${suggestion.name} (${suggestion.releaseDate})`}</a>
+            </div>
           ))}
         </ul>
       )}

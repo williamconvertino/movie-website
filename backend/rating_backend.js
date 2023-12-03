@@ -65,10 +65,13 @@ const setRatingID = async (userID, movieID, rating) => {
     } else {
         newNumRatings += 1;
     }
+
+    let newAverageRating = newNumRatings > 0 ? Number(newTotalRating / newNumRatings) : 0
     
     await updateDoc(movieRef, {
         numberOfRatings: newNumRatings,
-        totalRating: newTotalRating
+        totalRating: newTotalRating,
+        averageRating: newAverageRating
     });
 }
 
