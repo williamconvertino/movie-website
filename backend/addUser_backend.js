@@ -8,11 +8,10 @@ const {
     arrayUnion,
 } = require("firebase/firestore");
 
-const { app } = require("../firebase/firebase.js");
+const { db } = require('./firebase_backend')
 
 const addUser = async (user) => {
-    const db = getFirestore(app);
-
+    
     try {
         // add user to collection
         const usersRef = collection(db, "users");
