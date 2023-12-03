@@ -71,6 +71,8 @@ export default function AddMovie() {
             <div className = "add-movie">
             
                 <h1>Add Movie</h1>
+
+                For multiple genres, enter them as genre1, genre2, ...
                 
                 {<div>
 
@@ -81,7 +83,7 @@ export default function AddMovie() {
                             value={name}
                             onChange={handleNameChange}
                             required
-                            style={{ marginBottom: '15px' }}
+                            style={{ marginTop: '15px', marginBottom: '15px' }}
                         />
                     </div>
                     <div className="input-container">

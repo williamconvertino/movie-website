@@ -52,7 +52,7 @@ const HomePage = () => {
                 
                 
                 <div className="movie-details">
-                    Discussion:
+                    <h3>Discussion:</h3>
                     {discussions.map((discussion) => <DiscussionBlock parentReview={review.id} key={discussion.id} discussion={discussion} />)}
                 </div>
             </div>
