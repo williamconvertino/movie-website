@@ -83,7 +83,7 @@ export default function AddMovie() {
                             value={name}
                             onChange={handleNameChange}
                             required
-                            style={{ marginBottom: '15px' }}
+                            style={{ marginTop: '15px', marginBottom: '15px' }}
                         />
                     </div>
                     <div className="input-container">
