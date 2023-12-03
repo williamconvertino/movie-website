@@ -8,7 +8,7 @@ export default function StarRating({rating, setRating}) {
 
     return (
         <>
-            {rating ? [...Array(5)].map((star, index) => {
+            {[...Array(5)].map((star, index) => {
             const currentRating = index + 1;
             return (
               <label key={index}>
@@ -27,7 +27,7 @@ export default function StarRating({rating, setRating}) {
               </label>
             );
           })
-          : "No rating given"
+        
         }
           
           </>

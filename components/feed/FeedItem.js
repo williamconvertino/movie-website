@@ -6,6 +6,7 @@ import {
 import Cookies from 'js-cookie';
 
 import { UserAuth } from '@components/context/AuthContext';
+import StarRating from '@components/StarRating';
 
 export default function FeedItem ({ review }) {
     
@@ -147,15 +148,15 @@ export default function FeedItem ({ review }) {
                 <div className="conversation-header">
                     <p>Username: {userName}</p>
                     {movie ? <a href={`/movieprofile?movieID=${movie.id}`}><p>Movie: {movie.name}</p></a> : <p>"Loading..."</p>}
-                    <p>Rating: {rating}</p>
+                    <p>Rating: <StarRating rating={rating}/></p>
                     <p>Review: {review.content}</p>
                     <p>{time}</p>
                     <div> 
-                        <div style={{cursor: "pointer"}} onClick={ToggleLike}>{numLikes} likes</div> 
-                        <div style={{cursor: "pointer"}} onClick={ToggleDislike}>{numDislikes} dislikes</div>
+                        <a style={{cursor: "pointer", fontWeight: likeState == 1 ? "bold" : "lighter"}} onClick={ToggleLike}>{numLikes} likes </a> 
+                        
+                        <a style={{cursor: "pointer", fontWeight: likeState == -1 ? "bold" : "lighter"}} onClick={ToggleDislike}>{numDislikes} dislikes</a>
                     </div>
-                    <p>{likeState == 1 && "(Liked)"}</p>
-                    <p>{likeState == -1 && "(Disliked)"}</p>
+                    
 
                     <button className="toggle-comments" onClick={toggleCommentsVisibility}>
                         {commentsVisible ? 'Hide Comments' : 'Show Comments'}
