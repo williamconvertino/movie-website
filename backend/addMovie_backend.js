@@ -9,11 +9,11 @@ const {
 
 const { db } = require('./firebase_backend')
 
-const addMovie = async (name, genres, year) => {
+const addMovie = async (name, genres, year, imdbID) => {
     
     const moviesRef = collection(db, "movieProfiles");
     
-    const q = query(moviesRef, where("searchName", "==", name.toLowerCase()), where("releaseDate", "==", year))
+    const q = query(moviesRef, where("imdbID", "==", imdbID))
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.size > 0) {
@@ -24,6 +24,7 @@ const addMovie = async (name, genres, year) => {
 
     const newMovie = {
         name: name,
+        imdbID: imdbID,
         searchName: name.toLowerCase(),
         genres: genreList,
         releaseDate: year,

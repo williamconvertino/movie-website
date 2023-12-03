@@ -111,7 +111,7 @@ const MovieProfile = () => {
                     <div className="movie-details">
                         <h1>{movie.name}</h1>
                         <p>Released Date: {movie.releaseDate}</p>
-                        <p>Genre: {movie.genres.map((w,index) => <a>{w.charAt(0).toUpperCase() + w.slice(1)}{index < movie.genres.length - 1 ? ', ' : ''} </a>)}</p>
+                        <p>Genre: {movie.genres.map((w,index) => <a key={index}>{w.charAt(0).toUpperCase() + w.slice(1)}{index < movie.genres.length - 1 ? ', ' : ''} </a>)}</p>
                         <p>Average Rating: <StarRating rating={movieRating}/></p>
                         {/* {profile && <div>
                             <a style={{fontWeight: (userRating > 0 ? "bold": "normal"), cursor: "pointer"}} onClick={() => onRateMovie(1)}>1 </a>
