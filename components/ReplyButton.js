@@ -16,7 +16,13 @@ export default function ReplyButton ({ parentID, refresh, review=false, text = "
     const handleSubmit = async () => {
         
         if (content.length == 0) return
-        const resp = await fetch(`/api/addDiscussion${review ? "Review": ""}?user=${profile.id}&parent=${parentID}&content=${content}`)
+
+        const censoredResp = await fetch(`/api/censor?content=${content}`)
+        const censoredData = await censoredResp.json()
+        const censoredContent = censoredData.censoredContent
+        setContent(censoredContent)
+
+        const resp = await fetch(`/api/addDiscussion${review ? "Review": ""}?user=${profile.id}&parent=${parentID}&content=${censoredContent}`)
         const data = await resp.json()
         const newID = data.discussionID
         setContent("")

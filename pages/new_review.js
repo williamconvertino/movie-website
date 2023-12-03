@@ -38,8 +38,7 @@ export default function ReviewForm() {
     const data = await obj.json()
     const censoredContent = data.censoredContent
     setContent(censoredContent)
-    console.log(censoredContent)
-
+    
     if (censoredContent.length < 1) {
       return
     }
