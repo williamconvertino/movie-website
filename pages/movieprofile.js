@@ -3,11 +3,11 @@ import React, {
   useState,
 } from 'react';
 
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 
 import { UserAuth } from '@components/context/AuthContext';
 import FeedItem from '@components/feed/FeedItem';
+import StarRating from '@components/StarRating';
 import TopBar from '@components/TopBar';
 
 const MovieProfile = () => {
@@ -21,7 +21,7 @@ const MovieProfile = () => {
 
     const [userReviews, setUserReviews] = useState([]);
 
-    const [userRating, setUserRating] = useState([0])
+    const [userRating, setUserRating] = useState(0)
 
     const onSave = async () => {
         if (!movieID) return
@@ -70,9 +70,17 @@ const MovieProfile = () => {
 
     const loadUserRating = async () => {
         if (!profile) return
-        const rating = Cookies.get(`user-${profile.id}&review-${movieID}`)
-        setUserRating(rating)
+        
+        const resp = await fetch(`/api/getRatingID?movieID=${movieID}&userID=${profile.id}`)
+        const data = await resp.json()
+        const ratingData = data.ratingData
+        if (!ratingData) return
+        setUserRating(ratingData.rating)
     }
+
+    useEffect(() => {
+        loadUserRating()
+    }, [profile]);
 
     const populateData = async () => {
         loadMovie()
@@ -105,12 +113,15 @@ const MovieProfile = () => {
                         <p>Released Date: {movie.releaseDate}</p>
                         <p>Genre: {movie.releaseDate}</p>
                         <p>Average Rating: {movieRating}</p>
-                        {profile && <div>
+                        {/* {profile && <div>
                             <a style={{fontWeight: (userRating > 0 ? "bold": "normal"), cursor: "pointer"}} onClick={() => onRateMovie(1)}>1 </a>
                             <a style={{fontWeight: (userRating > 1 ? "bold": "normal"), cursor: "pointer" }} onClick={() => onRateMovie(2)}>2 </a>
                             <a style={{fontWeight: (userRating > 2 ? "bold": "normal"), cursor: "pointer" }} onClick={() => onRateMovie(3)}>3 </a>
                             <a style={{fontWeight: (userRating > 3 ? "bold": "normal"), cursor: "pointer" }} onClick={() => onRateMovie(4)}>4 </a>
                             <a style={{fontWeight: (userRating > 4 ? "bold": "normal"), cursor: "pointer" }} onClick={() => onRateMovie(5)}>5 </a>
+                        </div>} */}
+                        {profile && <div>
+                            Your rating: {<StarRating rating={userRating} setRating={onRateMovie}/>}  
                         </div>}
                         {profile && <button onClick={onSave}>Save Movie</button>}
                         
