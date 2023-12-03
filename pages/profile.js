@@ -7,12 +7,16 @@ import {
   addDoc,
   collection,
 } from 'firebase/firestore';
+import { useRouter } from 'next/router';
 
 import { UserAuth } from '@components/context/AuthContext';
 import TopBar from '@components/TopBar';
 import { db } from '@firebase';
 
 export default function ProfilePage() {
+  
+  const router = useRouter()
+  
   const {user, profile, emailSignUp, emailSignIn, logOut} = UserAuth()
   
   const [reviews, setReviews] = useState([]);
@@ -84,18 +88,18 @@ export default function ProfilePage() {
         <br></br>
         <h1>Your Profile</h1>
         <p>Username: {profile ? profile.username : 'Loading...'}</p>
-        <h2>Previously Reviewed</h2>
+        <h2>Your Recent Reviews</h2>
         <ul>
           {reviews.map((review) => (
-            <li key={review.id}>{!review.movie ? "Loading..." : 
+            <div key={review.id} onClick={() => router.push(`/review?reviewID=${review.id}`)} style={{cursor: "pointer"}}> {!review.movie ? "Loading..." : 
             
-                <div >
+                <div className='conversation'>
                     <a href={`/movieprofile?movieID=${review.movie.id}`}>{review.movie.name}</a>
                   <br></br>
                     {review.content}
                 </div>
             
-            }</li>
+            }</div>
           ))}
         </ul>
       </div>
