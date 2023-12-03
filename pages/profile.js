@@ -116,7 +116,8 @@ export default function ProfilePage() {
         </ul>
 
         <h2>Your Discussions & Replies</h2>
-        {discussions.map((discussion) => (<div className='conversation' onClick={() => router.push(`/review?reviewID=${discussion.parentReview}`)}>
+        {discussions.map((discussion) => (<div className='conversation' onClick={() => {}}>
+          {/* router.push(`/review?reviewID=${discussion.parentReview}`) */}
           <p>
             {discussion.content}
           </p>
