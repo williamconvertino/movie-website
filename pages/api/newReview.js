@@ -10,6 +10,7 @@ export default async (req, res) => {
         await addReviewEntry(userID, content, movieID);
         res.status(200).json({ userID, content, movieID });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: "Failed to create review." });
     }
     

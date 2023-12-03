@@ -31,6 +31,16 @@ export default function ReviewForm() {
     if (content.length < 1) {
       return
     }
+    
+    const obj = await fetch(`/api/censor?content=${content}`)
+    const data = await obj.json()
+    const censoredContent = data.censoredContent
+    setContent(censoredContent)
+    console.log(censoredContent)
+
+    if (censoredContent.length < 1) {
+      return
+    }
 
     if (!movie || !user) {
       throw new Error("Movie not loaded...")
@@ -41,24 +51,16 @@ export default function ReviewForm() {
       setSubmitState("ready")
       return
     }
+    
+    try {
+      await fetch(`/api/newReview?movieID=${movie.id}&content=${censoredContent}&userID=${user.uid}`)
+      router.push(`/movieprofile?movieID=${movie.id}`)
 
-
-    // const newReview = {
-    //   movie: movie.id,
-    //   content: content,
-    //   DateTimeCreated: Timestamp.now(),
-    //   user: profile.id
-    // };
-
-    fetch(`/api/newReview?movieID=${movie.id}&content=${content}&userID=${user.uid}`)
-        .then((response) => response.json())
-        .then((data) => {
-          router.push(`/movieprofile?movieID=${movie.id}`)
-        })
-        .catch((error) => {
-            console.error('Error fetching search results:', error);
-    });
-
+    } catch (error) {
+      
+    }
+    
+    
   }
 
   const loadMovie = async () => {
