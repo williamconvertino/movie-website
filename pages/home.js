@@ -8,63 +8,30 @@ import FeedItem from '@components/feed/FeedItem';
 import TopBar from '@components/TopBar';
 
 const HomePage = () => {
-    // Destructuring values from the UserAuth context
     const { user, emailSignUp, emailSignIn, logOut } = UserAuth();
 
-    // State for storing reviews
     const [userReviews, setUserReviews] = useState([]);
 
-    // State for managing selected review and new comment
-    const [selectedReview, setSelectedReview] = useState(null);
-    const [newComment, setNewComment] = useState('');
+    const [feedOption, _setFeedOption] = useState("new");
 
-    // Function to handle "Add Comment" button click
-    const handleAddCommentClick = (reviewId) => {
-        setSelectedReview(reviewId);
-    };
+    const setFeedOption = (option) => {
+        _setFeedOption(option)
+        generateFeed(option)
+    }
 
-    // Function to handle "Back to Home" button click
-    const handleBackToHomePage = () => {
-        setSelectedReview(null);
-        setNewComment('');
-    };
-
-  // Function to handle comment submission
-    // const handleCommentSubmit = () => {
-    //     if (newComment.trim() !== '') {
-    //     // Find the review by reviewId
-    //     const updatedReviews = userReviews.map((review) => {
-    //         if (review.id === selectedReview) {
-    //             review.comments.push({
-    //             id: review.comments.length + 1,
-    //             username: user.username, // Replace with the actual username
-    //             text: newComment,
-    //             });
-    //         }
-    //         return review;
-    //     });
-
-    //     setUserReviews(updatedReviews);
-    //     setNewComment('');
-    //     }
-    // };
-
-  // Function to fetch and update user reviews
-    const generateFeed = async () => {
-        try {
-            const res = await fetch('/api/getFeed');
-            const feed = await res.json();
-
-            if (feed.data) {
-                setUserReviews(feed.data);
-            }
-        } catch (error) {
-            console.error(error);
+    const generateFeed = async (option) => {
+        const res = await fetch(`/api/getFeed?feedOption=${option}`);
+        const feed = await res.json();
+        if (feed.data) {
+            setUserReviews(feed.data);
+        } else {
+            setUserReviews([]);
         }
+        
     };
 
     useEffect(() => {
-        generateFeed();
+        generateFeed(feedOption);
     }, []);
 
     return (
@@ -72,6 +39,13 @@ const HomePage = () => {
             <TopBar />
             <div className="conversations-container">
                 <h2>Your Feed</h2>
+                <div>
+                    <a style={{fontWeight: feedOption == "new" ? "bold" : "initial", cursor:"pointer"}} onClick={() => {setFeedOption("new")}}>New </a>
+                    <a style={{fontWeight: feedOption == "week" ? "bold" : "initial", cursor:"pointer"}} onClick={() => {setFeedOption("week")}}>Top (Week) </a>
+                    <a style={{fontWeight: feedOption == "month" ? "bold" : "initial", cursor:"pointer"}} onClick={() => {setFeedOption("month")}}>Top (Month) </a>
+                    <a style={{fontWeight: feedOption == "all" ? "bold" : "initial", cursor:"pointer"}} onClick={() => {setFeedOption("all")}}>Top (All Time) </a>
+                    
+                </div>
                 {userReviews.map((review) => (<div key={review.id}><FeedItem review={review}/></div>))}
             </div>
         </div>
