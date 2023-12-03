@@ -1,19 +1,13 @@
 // api for adding movie
 
-import addMovie from "../../backend/addMovie_backend.js";
+import { addMovie } from '../../backend/addMovie_backend.js';
 
 export default async (req, res) => {
-    const movie = {
-        title: req.query.title,
-        genre: req.query.genre,
-        year: req.query.year,
-        //Other stuff here idk what else
-    };
+    const title = req.query.title;
+    const genres = req.query.genres;
+    const year = req.query.year;
 
-    try {
-        const movieId = await addMovie(movie);
-        res.status(200).json({ message: "movie added succesfully" });
-    } catch (error) {
-        res.status(500).json({ error: "Failed to add movie." });
-    }
+    const newID = await addMovie(title, genres, year);
+    res.status(200).json({ movieID: newID });
+    
 };

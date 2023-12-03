@@ -112,7 +112,7 @@ const MovieProfile = () => {
                         <h1>{movie.name}</h1>
                         <p>Released Date: {movie.releaseDate}</p>
                         <p>Genre: {movie.releaseDate}</p>
-                        <p>Average Rating: <StarRating rating={movieRating} setRating={() => {}}/></p>
+                        <p>Average Rating: <StarRating rating={movieRating}/></p>
                         {/* {profile && <div>
                             <a style={{fontWeight: (userRating > 0 ? "bold": "normal"), cursor: "pointer"}} onClick={() => onRateMovie(1)}>1 </a>
                             <a style={{fontWeight: (userRating > 1 ? "bold": "normal"), cursor: "pointer" }} onClick={() => onRateMovie(2)}>2 </a>

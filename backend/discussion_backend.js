@@ -19,7 +19,7 @@ const addDiscussion = async(userReference, chatText, parentDiscussion, parentRev
     await addDoc(chatRef, {
         user: doc(db, "users/", userReference),
         content: chatText,
-        DateTimeCreated: Timestamp.now(),
+        dateTimeCreated: Timestamp.now(),
         numLikes: 0,
         numDislikes: 0,
         parentReview: doc(db, "reviews/", parentReview),
@@ -30,7 +30,7 @@ else{
     await addDoc(chatRef, {
         user: doc(db, "users/", userReference),
         content: chatText,
-        DateTimeCreated: Timestamp.now(),
+        dateTimeCreated: Timestamp.now(),
         numLikes: 0,
         numDislikes: 0,
         parentReview: null,

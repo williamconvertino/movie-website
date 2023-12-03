@@ -16,13 +16,13 @@ export default function StarRating({rating, setRating}) {
                   type="radio"
                   name="rating"
                   value={currentRating}
-                  onClick={() => setRating(currentRating)}
+                  onClick={() => setRating ? setRating(currentRating) : null}
                 />
                   <FaStar  
                     size={20}
                     color={currentRating <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
-                    onMouseEnter={() => setHover(currentRating)}
-                    onMouseLeave={() => setHover(null)}
+                    onMouseEnter={() => setRating ? setHover(currentRating) : null}
+                    onMouseLeave={() => setRating ? setHover(null) : null}
                     />
               </label>
             );

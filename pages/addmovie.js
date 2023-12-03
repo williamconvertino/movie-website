@@ -1,23 +1,46 @@
 import React, { useState } from 'react';
 
-import SearchResults from '@components/SearchResultsComponent';
+import { useRouter } from 'next/router';
+
 import TopBar from '@components/TopBar';
 
 export default function AddMovie() {
+
+    const router = useRouter();
     const [name, setName] = useState('');
     const [genre, setGenre] = useState('');
     const [year, setYear] = useState('');
 
+    const [error, setError] = useState(null);
+
     const handleNameChange = (e) => {
         setName(e.target.value);
+        setError(null)
     }
 
     const handleGenreChange = (e) => {
         setGenre(e.target.value);
+        setError(null)
     }
 
     const handleYearChange = (e) => {
         setYear(e.target.value);
+        setError(null)
+    }
+
+    const onSubmit = async (e) => {
+        
+        if (!name || !genre || !year) {
+            return
+        }
+
+        const res = await fetch(`/api/addMovie?title=${name}&genres=${genre}&year=${year}`);
+        const data = await res.json();
+        if (data.movieID == "exists") {
+            setError("exists")
+        } else {
+            router.push(`/movieprofile?movieID=${data.movieID}`)
+        }
     }
 
     return (
@@ -55,8 +78,13 @@ export default function AddMovie() {
                         style={{ marginBottom: '15px' }}
                     />
                 </div>
-                <button type="submit">Add Movie</button>
+                <button onClick={onSubmit}>Add Movie</button>
+                {error == "exists" &&
+                <div>
+                    <p>This movie already exists!</p>
+                </div>}
             </div>
+            
         </div>
     )
 }
