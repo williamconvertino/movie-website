@@ -146,14 +146,20 @@ export default function FeedItem ({ review, clickable=true }) {
     }, [profile])
     
     return(
-        <div style={{cursor: clickable ? "pointer" : "initial"}} onClick={() => clickable ? router.push(`/review?reviewID=${review.id}`) : null}>
+        <div style={{cursor: clickable ? "pointer" : "initial"}}>
             <div key={review.id} className="conversation">
                 <div className="conversation-header">
                     <p>Username: {userName}</p>
                     {movie ? <a href={`/movieprofile?movieID=${movie.id}`}><p>Movie: {movie.name}</p></a> : <p>"Loading..."</p>}
-                    <p>Rating: <StarRating rating={rating}/></p>
-                    <p>Review: {review.content}</p>
-                    <p>{time}</p>
+                    
+                    <a onClick={() => clickable ? router.push(`/review?reviewID=${review.id}`) : null}>
+                        <p>Rating: <StarRating rating={rating}/></p>
+                        <p>Review: {review.content}</p>
+                        <p>{time}</p>
+                    </a>
+                    
+                    
+                    
                     <div> 
                         <a style={{cursor: "pointer", fontWeight: likeState == 1 ? "bold" : "lighter"}} onClick={ToggleLike}>{numLikes} likes </a> 
                         
