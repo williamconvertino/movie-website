@@ -70,17 +70,40 @@ const getDiscussionsReviewID = async (reviewID, limit) => {
     if (!limit) {
         limit = 10;
     }
-    // get all discussions based on reviewID
-    const reviewRef = doc(db, "reviews/", reviewID);
-    const chatsRef = collection(db, "discussions");
-    const q = query(chatsRef, where("parent", "==", reviewRef), limit(limit));
+    
+    const discussionRef = collection(db, "discussions");
+    
+    const q = query(discussionRef, where("parentReview", "==", reviewID));
     const querySnapshot = await getDocs(q);
-    let chatData = [];
+    
+    let discussions = [];
+
     querySnapshot.forEach((doc) => {
-        const data = doc.get("content")
-        chatData.push(data);
+        const data = doc.data()
+        data.id = doc.id
+        discussions.push(data);
     });
-    return chatData;
+    return discussions;
     }
 
-module.exports = { addDiscussion, getUserDiscussions, getDiscussionbyID, getDiscussionsReviewID}
+    const getDiscussionsParentID = async (parentID, limit) => {
+        if (!limit) {
+            limit = 10;
+        }
+        
+        const discussionRef = collection(db, "discussions");
+        
+        const q = query(discussionRef, where("parentDiscussion", "==", parentID));
+        const querySnapshot = await getDocs(q);
+        
+        let discussions = [];
+    
+        querySnapshot.forEach((doc) => {
+            const data = doc.data()
+            data.id = doc.id
+            discussions.push(data);
+        });
+        return discussions;
+        }
+
+module.exports = { addDiscussion, getUserDiscussions, getDiscussionbyID, getDiscussionsReviewID, getDiscussionsParentID}

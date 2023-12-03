@@ -6,131 +6,52 @@ import React, {
 import { useRouter } from 'next/router';
 
 import { UserAuth } from '@components/context/AuthContext';
+import DiscussionBlock from '@components/DiscussionBlock';
+import FeedItem from '@components/feed/FeedItem';
 import TopBar from '@components/TopBar';
 
-export default function ReviewForm() {
-
-  const {user, profile, emailSignUp, emailSignIn, logOut} = UserAuth()
-
-  const router = useRouter()
-  const {movieID} = router.query
-
-  const [movie, setMovie] = useState(null);
-  const [rating, setRating] = useState(null);
-  const [content, setContent] = useState("");
-  
-  const [censoredWord, setCensoredWord] = useState(false)
-
-
-  const [loadState, setLoadState] = useState("loading");
-  const [submitState, setSubmitState] = useState("idle");
-
-  const handleSubmit = async (e) => {
+const HomePage = () => {
     
-    if (e) {
-      e.preventDefault();
+    const { user, emailSignUp, emailSignIn, logOut } = UserAuth();
+    
+    const router = useRouter()
+    const {reviewID} = router.query;
+    
+    const [review, setReview] = useState(null);
+
+    const [discussions, setDiscussions] = useState([]);
+
+    const populateData = async () => {
+        if (!reviewID) return;
+        const resp = await fetch(`/api/getReviewID?reviewID=${reviewID}`)
+        const data = await resp.json()
+        setReview(data.reviewData);
+
+        const resp2 = await fetch(`/api/getDiscussionsReview?reviewID=${reviewID}&limit=10`)
+        const data2 = await resp2.json()
+        setDiscussions(data2.discussionData);
+
     }
 
-    if (content.length < 1) {
-      return
-    }
+    useEffect(() => {
+        populateData()
+    }, [reviewID]);
     
-    const obj = await fetch(`/api/censor?content=${content}`)
-    const data = await obj.json()
-    const censoredContent = data.censoredContent
-    setContent(censoredContent)
-    console.log(censoredContent)
+    return (
+        <div>
+            <TopBar />
+            
+            <div className="movie-profile">
+                <div className="movie-details">
+                    {review ? <FeedItem review={review} clickable={false} /> : "Loading..."}
+                </div>    
+                <div className="movie-details">
+                    Discussion:
+                    {discussions.map((discussion) => <DiscussionBlock key={discussion.id} discussion={discussion} />)}
+                </div>
+            </div>
+        </div>
+    );
+    };
 
-    if (censoredContent.length < 1) {
-      return
-    }
-
-    if (!movie || !user) {
-      throw new Error("Movie not loaded...")
-      return
-    }
-
-    if (loadState != "ready") {
-      setSubmitState("ready")
-      return
-    }
-    
-    try {
-      await fetch(`/api/newReview?movieID=${movie.id}&content=${censoredContent}&userID=${user.uid}`)
-      router.push(`/movieprofile?movieID=${movie.id}`)
-
-    } catch (error) {
-      
-    }
-    
-    
-  }
-
-  const loadMovie = async () => {
-    if (!movieID) return;
-    
-    fetch(`/api/getMovieID?movieID=${movieID}`)
-        .then((response) => response.json())
-        .then((data) => {
-            setMovie(data.movieData);
-
-            setLoadState("ready")
-
-            if (submitState == "ready") {
-              handleSubmit()
-            }
-
-        })
-        .catch((error) => {
-            console.error('Error fetching search results:', error);
-        });
-  }
-
-  const loadRating = async () => {
-
-  }
-
-  useEffect(() => {
-    loadMovie()
-    loadRating()
-  }, [movieID])
-
-  return (
-    <div>
-      <TopBar />
-      <div className="review-page">
-      <br></br>
-      <br></br>
-      <h1>{movie ? `Review the movie "${movie.name}"` : "Loading..."}</h1>
-      
-      <form onSubmit={handleSubmit}>
-          {/* <input
-            placeholder="Movie Title"
-            type="text"
-            value={movieTitle}
-            onChange={(e) => setMovieTitle(e.target.value)}
-          /> */}
-
-          {/* <label>Rating (1-5): 
-          <input
-            type="number"
-            value={rating}
-            onChange={(e) => setRating(e.target.value)}
-            min="0"
-            max="5"
-          />
-</label> */}
-        
-          <textarea
-            placeholder="Review movie here ..."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-
-        <button type="submit">Submit Review</button>
-      </form>
-      
-      </div>
-    </div>
-  );
-}
+    export default HomePage;

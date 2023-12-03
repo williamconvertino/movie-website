@@ -4,12 +4,15 @@ import {
 } from 'react';
 
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 
 import { UserAuth } from '@components/context/AuthContext';
 import StarRating from '@components/StarRating';
 
-export default function FeedItem ({ review }) {
+export default function FeedItem ({ review, clickable=true }) {
     
+    const router = useRouter()
+
     const [userName, setUserName] = useState('Loading...');
     const [movie, setMovie] = useState(null);
     const [rating, setRating] = useState('Loading...');
@@ -143,7 +146,7 @@ export default function FeedItem ({ review }) {
     }, [profile])
     
     return(
-        <div>
+        <div style={{cursor: clickable ? "pointer" : "initial"}} onClick={() => clickable ? router.push(`/review?reviewID=${review.id}`) : null}>
             <div key={review.id} className="conversation">
                 <div className="conversation-header">
                     <p>Username: {userName}</p>
@@ -158,10 +161,10 @@ export default function FeedItem ({ review }) {
                     </div>
                     
 
-                    <button className="toggle-comments" onClick={toggleCommentsVisibility}>
+                    {/* <button className="toggle-comments" onClick={toggleCommentsVisibility}>
                         {commentsVisible ? 'Hide Comments' : 'Show Comments'}
                     </button>
-                    <button onClick={handleAddComment}>Add Comment</button>
+                    <button onClick={handleAddComment}>Add Comment</button> */}
                 </div>
 
                 {showAddComment && (

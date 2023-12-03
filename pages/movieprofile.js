@@ -132,7 +132,7 @@ const MovieProfile = () => {
                     </div>
                     <div className="user-ratings">
                         <h2>Recent Reviews</h2>
-                        {profile && <a href={`/review?movieID=${movie.id}`}>Write a review</a>}
+                        {profile && <a href={`/new_review?movieID=${movie.id}`}>Write a review</a>}
                         {userReviews.map((review) => (<div key={review.id}><FeedItem review={review}/></div>))}
                     </div>
                     
