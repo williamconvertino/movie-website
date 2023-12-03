@@ -7,7 +7,7 @@ export default function StarRating({rating, setRating}) {
     const [hover, setHover] = useState(null);
 
     return (
-        <div>
+        <>
             {rating ? [...Array(5)].map((star, index) => {
             const currentRating = index + 1;
             return (
@@ -30,6 +30,6 @@ export default function StarRating({rating, setRating}) {
           : "No rating given"
         }
           
-          </div>
+          </>
     )
 }

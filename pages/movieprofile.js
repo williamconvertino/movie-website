@@ -112,7 +112,7 @@ const MovieProfile = () => {
                         <h1>{movie.name}</h1>
                         <p>Released Date: {movie.releaseDate}</p>
                         <p>Genre: {movie.releaseDate}</p>
-                        <p>Average Rating: {movieRating}</p>
+                        <p>Average Rating: <StarRating rating={movieRating} setRating={() => {}}/></p>
                         {/* {profile && <div>
                             <a style={{fontWeight: (userRating > 0 ? "bold": "normal"), cursor: "pointer"}} onClick={() => onRateMovie(1)}>1 </a>
                             <a style={{fontWeight: (userRating > 1 ? "bold": "normal"), cursor: "pointer" }} onClick={() => onRateMovie(2)}>2 </a>
@@ -120,10 +120,14 @@ const MovieProfile = () => {
                             <a style={{fontWeight: (userRating > 3 ? "bold": "normal"), cursor: "pointer" }} onClick={() => onRateMovie(4)}>4 </a>
                             <a style={{fontWeight: (userRating > 4 ? "bold": "normal"), cursor: "pointer" }} onClick={() => onRateMovie(5)}>5 </a>
                         </div>} */}
-                        {profile && <div>
+                        {profile && <p>
                             Your rating: {<StarRating rating={userRating} setRating={onRateMovie}/>}  
-                        </div>}
-                        {profile && <button onClick={onSave}>Save Movie</button>}
+                        </p>
+                        }
+                        
+                        {profile && <p>
+                            <button onClick={onSave}>Save Movie</button>
+                            </p>}
                         
                     </div>
                     <div className="user-ratings">
