@@ -6,6 +6,7 @@ import React, {
 import Cookies from 'js-cookie';
 
 import { UserAuth } from './context/AuthContext';
+import ReplyButton from './ReplyButton';
 
 export default function DiscussionBlock ({ discussion, level=0 }) {
     
@@ -29,6 +30,7 @@ export default function DiscussionBlock ({ discussion, level=0 }) {
 
     const [numLikes, setNumLikes] = useState(discussion.numLikes)
     const [numDislikes, setNumDislikes] = useState(discussion.numDislikes)
+
 
     const populateData = async () => {
         if (!discussion.user) return;
@@ -120,6 +122,8 @@ export default function DiscussionBlock ({ discussion, level=0 }) {
                         <a style={{cursor: "pointer", fontWeight: likeState == -1 ? "bold" : "lighter"}} onClick={ToggleDislike}>{numDislikes} dislikes</a>
             </div>
             
+            <ReplyButton parentID={discussion.id} refresh={populateData} />
+
             {replies.map((reply) => <DiscussionBlock key={reply.id} discussion={reply} level={level+1} />)}
 
         </div>

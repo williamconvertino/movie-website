@@ -21,7 +21,6 @@ export default function ReviewForm() {
   
   const [censoredWord, setCensoredWord] = useState(false)
 
-
   const [loadState, setLoadState] = useState("loading");
   const [submitState, setSubmitState] = useState("idle");
 
