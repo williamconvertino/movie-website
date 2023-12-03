@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 import { UserAuth } from './context/AuthContext';
 import ReplyButton from './ReplyButton';
 
-export default function DiscussionBlock ({ discussion, level=0 }) {
+export default function DiscussionBlock ({ discussion, parentReview, level=0 }) {
     
     let leftMargin = "0px"
 
@@ -122,9 +122,9 @@ export default function DiscussionBlock ({ discussion, level=0 }) {
                         <a style={{cursor: "pointer", fontWeight: likeState == -1 ? "bold" : "lighter"}} onClick={ToggleDislike}>{numDislikes} dislikes</a>
             </div>
             
-            <ReplyButton parentID={discussion.id} refresh={populateData} />
+            <ReplyButton parentReview={parentReview} parentDiscussion={discussion.id} refresh={populateData} />
 
-            {replies.map((reply) => <DiscussionBlock key={reply.id} discussion={reply} level={level+1} />)}
+            {replies.map((reply) => <DiscussionBlock key={reply.id} discussion={reply} parentReview={parentReview} level={level+1} />)}
 
         </div>
     

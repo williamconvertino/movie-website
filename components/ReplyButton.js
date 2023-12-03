@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { UserAuth } from './context/AuthContext';
 
-export default function ReplyButton ({ parentID, refresh, review=false, text = "Reply" }) {
+export default function ReplyButton ({ parentReview, parentDiscussion, refresh, text = "Reply" }) {
 
     const {user, profile} = UserAuth()
 
@@ -22,7 +22,7 @@ export default function ReplyButton ({ parentID, refresh, review=false, text = "
         const censoredContent = censoredData.censoredContent
         setContent(censoredContent)
 
-        const resp = await fetch(`/api/addDiscussion${review ? "Review": ""}?user=${profile.id}&parent=${parentID}&content=${censoredContent}`)
+        const resp = await fetch(`/api/addDiscussion?user=${profile.id}&parentReview=${parentReview}&parentDiscussion=${parentDiscussion}&content=${censoredContent}`)
         const data = await resp.json()
         const newID = data.discussionID
         setContent("")

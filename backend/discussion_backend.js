@@ -7,7 +7,8 @@ const {
     doc,
     getDoc,
     Timestamp,
-    getDocs
+    getDocs,
+    orderBy
 } = require("firebase/firestore");
 
 const { db } = require('./firebase_backend')
@@ -39,17 +40,14 @@ else{
 }
 }
 
-const getUserDiscussions = async (userID, limit) => {
-    if (!limit) {
-        limit = 10;
-    }
-    const userRef = doc(db, "users/", userID);
-    const chatsRef = collection(db, "discussions");
-    const q = query(chatsRef, where("user", "==", userRef), limit(limit));
+const getUserDiscussions = async (userID) => {
+    
+    const discussionRef = collection(db, "discussions");
+    const q = query(discussionRef, where("user", "==", userID), orderBy("datetimeCreated"), limit(10));
     const querySnapshot = await getDocs(q);
     let chatData = [];
     querySnapshot.forEach((doc) => {
-        const data = doc.get("content");
+        const data = doc.data();
         chatData.push(data);
     });
     return chatData;

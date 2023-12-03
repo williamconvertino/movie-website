@@ -46,14 +46,14 @@ const HomePage = () => {
             <div className="movie-profile">
                 <div className="movie-details">
                     {review ? <FeedItem review={review} clickable={false} /> : "Loading..."}
-                    <div><ReplyButton reviewID={reviewID} text='Add new discussion' refresh={populateData} review={true} parentID={reviewID}/> </div>
+                    <div><ReplyButton parentReview={reviewID} text='Add new discussion' refresh={populateData}/> </div>
                 
                 </div>
                 
                 
                 <div className="movie-details">
                     Discussion:
-                    {discussions.map((discussion) => <DiscussionBlock key={discussion.id} discussion={discussion} />)}
+                    {discussions.map((discussion) => <DiscussionBlock parentReview={review.id} key={discussion.id} discussion={discussion} />)}
                 </div>
             </div>
         </div>

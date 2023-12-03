@@ -24,6 +24,8 @@ export default function ProfilePage() {
   const [savedMovies, setSavedMovies] = useState([]);
   const [newMovie, setNewMovie] = useState('');
 
+  const [discussions, setDiscussions] = useState([]);
+
   const getReviews = async () => {
     if (!profile) return;
     const res = await fetch(`/api/getReviewUser?userID=${profile.id}`)
@@ -40,6 +42,15 @@ export default function ProfilePage() {
     await Promise.all(movieTasks)
 
     setReviews(reviews)  
+  }
+
+  const getDiscussions = async () => {
+    if (!profile) return;
+    const res = await fetch(`/api/getDiscussionsUser?userID=${profile.id}`)
+    const data = await res.json()
+    const discussions = data.discussions
+    console.log(data)
+    setDiscussions(discussions)  
   }
 
   const getSavedMovies = async () => {
@@ -77,6 +88,7 @@ export default function ProfilePage() {
   useEffect(() => {
     getReviews();
     getSavedMovies();
+    getDiscussions()
   }, [profile]);
 
   return (
@@ -94,7 +106,7 @@ export default function ProfilePage() {
             <div key={review.id} onClick={() => router.push(`/review?reviewID=${review.id}`)} style={{cursor: "pointer"}}> {!review.movie ? "Loading..." : 
             
                 <div className='conversation'>
-                    <a href={`/movieprofile?movieID=${review.movie.id}`}>{review.movie.name}</a>
+                    <a href={`/movieprofile?movieID=${review.movie.id}`}>{`${review.movie.name} (${review.movie.releaseDate})`}</a>
                   <br></br>
                     {review.content}
                 </div>
@@ -104,16 +116,26 @@ export default function ProfilePage() {
         </ul>
       </div>
 
+      <div className='saved-movies'>
+          <h2>Your Discussions & Replies</h2>
+          {discussions.map((discussion) => (<div className='conversation' onClick={() => router.push(`/review?reviewID=${discussion.parentReview}`)}>
+            <p>
+              {discussion.content}
+            </p>
+            
+            </div>))}
+        </div>
+
       <div className="saved-movies">
           <h2>Saved Movies</h2>
           <ul>
             {savedMovies.map((movie) => (
-              <li key={movie.id}>
-                <a href={`/movieprofile?movieID=${movie.id}`}>{movie.name}</a>
+              <div className='conversation' key={movie.id}>
+                <a href={`/movieprofile?movieID=${movie.id}`}>{`${movie.name} (${movie.releaseDate})`}</a>
                 <button onClick={() => handleDeleteMovie(movie)}>
                   Delete Movie
                 </button>
-              </li>
+              </div>
             ))}
           </ul>
           <div>
@@ -126,6 +148,8 @@ export default function ProfilePage() {
             {/* <button onClick={handleAddMovie}>Add Movie</button> */}
           </div>
         </div>
+
+        
     </div>
   );
 }
