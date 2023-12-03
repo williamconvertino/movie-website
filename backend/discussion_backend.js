@@ -71,8 +71,10 @@ const getDiscussionsReviewID = async (reviewID, limit) => {
     
     const discussionRef = collection(db, "discussions");
     
-    const q = query(discussionRef, where("parentReview", "==", reviewID));
+        
+    const q = query(discussionRef, where("parentReview", "==", reviewID), orderBy("numLikes", "desc"));
     const querySnapshot = await getDocs(q);
+
     
     let discussions = [];
 
@@ -91,9 +93,11 @@ const getDiscussionsReviewID = async (reviewID, limit) => {
         
         const discussionRef = collection(db, "discussions");
         
-        const q = query(discussionRef, where("parentDiscussion", "==", parentID));
+        
+        const q = query(discussionRef, where("parentDiscussion", "==", parentID), orderBy("numLikes", "desc"));
         const querySnapshot = await getDocs(q);
         
+
         let discussions = [];
     
         querySnapshot.forEach((doc) => {

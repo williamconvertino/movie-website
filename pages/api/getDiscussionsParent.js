@@ -7,6 +7,7 @@ export default async (req, res) => {
         const discussionData = await getDiscussionsParentID(parentID, limit);
         res.status(200).json({discussionData: discussionData});
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: "Failed to fetch discussion." });
     }
 }
