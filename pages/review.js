@@ -18,6 +18,9 @@ export default function ReviewForm() {
   const [movie, setMovie] = useState(null);
   const [rating, setRating] = useState(null);
   const [content, setContent] = useState("");
+  
+  const [censoredWord, setCensoredWord] = useState(false)
+
 
   const [loadState, setLoadState] = useState("loading");
   const [submitState, setSubmitState] = useState("idle");
@@ -126,21 +129,7 @@ export default function ReviewForm() {
 
         <button type="submit">Submit Review</button>
       </form>
-      {/* <div>
-        <h1>List of Reviews</h1>
-        <ul>
-          {reviews.map((review, index) => (
-            <li key={index}>
-              <strong>Movie Title:</strong> {review.movieTitle}
-              <br />
-              <strong>Rating:</strong> {review.rating}
-              <br />
-              <strong>Review:</strong> {review.comment}
-              <hr />
-            </li>
-          ))}
-        </ul>
-      </div> */}
+      
       </div>
     </div>
   );
