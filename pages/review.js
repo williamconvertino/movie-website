@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { UserAuth } from '@components/context/AuthContext';
 import DiscussionBlock from '@components/DiscussionBlock';
 import FeedItem from '@components/feed/FeedItem';
+import ReplyButton from '@components/ReplyButton';
 import TopBar from '@components/TopBar';
 
 const HomePage = () => {
@@ -33,6 +34,7 @@ const HomePage = () => {
 
     }
 
+
     useEffect(() => {
         populateData()
     }, [reviewID]);
@@ -44,7 +46,11 @@ const HomePage = () => {
             <div className="movie-profile">
                 <div className="movie-details">
                     {review ? <FeedItem review={review} clickable={false} /> : "Loading..."}
-                </div>    
+                    <div><ReplyButton reviewID={reviewID} text='Add new discussion' refresh={populateData} review={true} parentID={reviewID}/> </div>
+                
+                </div>
+                
+                
                 <div className="movie-details">
                     Discussion:
                     {discussions.map((discussion) => <DiscussionBlock key={discussion.id} discussion={discussion} />)}

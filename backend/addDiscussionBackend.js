@@ -17,7 +17,7 @@ const addDiscussion = async (user, parentID, content) => {
         user: user,
         content: content,
         numLikes: 0,
-        numDisikes: 0,
+        numDislikes: 0,
         parentDiscussion: parentID,
         datetimeCreated: Timestamp.now(),
     };
@@ -36,7 +36,7 @@ const addDiscussionReview = async (user, parentID, content) => {
         user: user,
         content: content,
         numLikes: 0,
-        numDisikes: 0,
+        numDislikes: 0,
         parentReview: parentID,
         datetimeCreated: Timestamp.now(),
     };

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { UserAuth } from './context/AuthContext';
 
-export default function ReplyButton ({ parentID, refresh, review=false }) {
+export default function ReplyButton ({ parentID, refresh, review=false, text = "Reply" }) {
 
     const {user, profile} = UserAuth()
 
@@ -37,7 +37,7 @@ export default function ReplyButton ({ parentID, refresh, review=false }) {
             
         
             <div onClick={toggleOpen}>Cancel</div>
-        </div> : <div onClick={toggleOpen}> Reply</div >}
+        </div> : <div onClick={toggleOpen}> {text}</div >}
     </div>
 
 }
