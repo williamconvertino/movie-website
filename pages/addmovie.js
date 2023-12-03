@@ -36,11 +36,11 @@ export default function AddMovie() {
 
     const onSubmit = async (e) => {
         
-        if (!name || !genre || !year) {
+        if (!name || !genre) {
             return
         }
         
-        const omdbRes = await fetch(`http://www.omdbapi.com/?apikey=${api_key}&s=${name}&y=${year}`)
+        const omdbRes = await fetch(`http://www.omdbapi.com/?apikey=${api_key}&s=${name}${year && year != '' ? "&y=" + year : ''}`)
         const omdbData = await omdbRes.json()
         console.log(omdbData)
         if (omdbData.Response == 'False') {
@@ -52,7 +52,7 @@ export default function AddMovie() {
 
     const addMovie = async (name, year, imdbID) => {
 
-        if (!name || !genre || !year || !imdbID) {
+        if (!name || !genre || !imdbID) {
             return
         }
 
