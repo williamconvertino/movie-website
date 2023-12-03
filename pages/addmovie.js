@@ -71,6 +71,8 @@ export default function AddMovie() {
             <div className = "add-movie">
             
                 <h1>Add Movie</h1>
+
+                For multiple genres, enter them as genre1, genre2, ...
                 
                 {<div>
 
