@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 import { UserAuth } from './context/AuthContext';
 import ReplyButton from './ReplyButton';
 
-export default function DiscussionBlock ({ discussion, parentReview, level=0 }) {
+export default function DiscussionBlock ({ discussion, parentReview, level=0, subThreads=true }) {
     
     let leftMargin = "0px"
 
@@ -110,6 +110,13 @@ export default function DiscussionBlock ({ discussion, parentReview, level=0 }) 
         }
     }
 
+    const reportDiscussion = async () => {
+        if (!profile) return;
+        if (Cookies.get(`report-user-${profile.id}&discussion-${discussion.id}`)) return;
+        Cookies.set(`report-user-${profile.id}&discussion-${discussion.id}`, true)
+        await fetch(`/api/reportDiscussion?discussionID=${discussion.id}`)       
+    }
+
 
     return  <div className="conversation" style={{marginLeft: leftMargin}}>
             <p style={{fontStyle: "italic"}}>
@@ -121,10 +128,17 @@ export default function DiscussionBlock ({ discussion, parentReview, level=0 }) 
                         
                         <a style={{cursor: "pointer", fontWeight: likeState == -1 ? "bold" : "lighter"}} onClick={ToggleDislike}>{numDislikes} dislikes</a>
             </div>
-            
+
+            <div>
+                        <p style={{fontWeight:"lighter", fontStyle: "italic"}} onClick={() => reportDiscussion()}>
+                            Report
+                        </p>
+                        
+                    </div>
+
             <ReplyButton parentReview={parentReview} parentDiscussion={discussion.id} refresh={populateData} />
 
-            {replies.map((reply) => <DiscussionBlock key={reply.id} discussion={reply} parentReview={parentReview} level={level+1} />)}
+            {subThreads && replies.map((reply) => <DiscussionBlock key={reply.id} discussion={reply} parentReview={parentReview} level={level+1} />)}
 
         </div>
     

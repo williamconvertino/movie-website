@@ -137,6 +137,14 @@ export default function FeedItem ({ review, clickable=true }) {
         }
     }
 
+    const reportReview = async () => {
+        if (!profile) return;
+        // if (!review.id) return
+        if (Cookies.get(`report-user-${profile.id}&review-${review.id}`)) return;
+        Cookies.set(`report-user-${profile.id}&review-${review.id}`, true)
+        await fetch(`/api/reportReview?reviewID=${review.id}`)       
+    }
+
     useEffect(() => {
         populateData()
     }, [review])
@@ -166,6 +174,12 @@ export default function FeedItem ({ review, clickable=true }) {
                         <a style={{cursor: "pointer", fontWeight: likeState == -1 ? "bold" : "lighter"}} onClick={ToggleDislike}>{numDislikes} dislikes</a>
                     </div>
                     
+                    <div>
+                        <p style={{fontWeight:"lighter", fontStyle: "italic"}} onClick={() => reportReview()}>
+                            Report
+                        </p>
+                        
+                    </div>
 
                     {/* <button className="toggle-comments" onClick={toggleCommentsVisibility}>
                         {commentsVisible ? 'Hide Comments' : 'Show Comments'}
