@@ -52,8 +52,8 @@ export default function Reports () {
                 <p>
                     User Reports
                 </p>
-                {reportedReviews.map((review) => <FeedItem key={review.id} review={review} />)}
-                {reportedDiscussions.map((discussion) => <DiscussionBlock key={discussion.id} discussion={discussion} subThreads={false}/>)}
+                {reportedReviews.map((review) => <div key={review.id}><FeedItem review={review} /> {review.numReports} Report(s)</div>)}
+                {reportedDiscussions.map((discussion) => <div key={discussion.id}> <DiscussionBlock discussion={discussion} subThreads={false}/>{discussion.numReports} Report(s)</div>)}
             </div>
         : <div>Not authorized</div>
 

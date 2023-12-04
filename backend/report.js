@@ -78,6 +78,7 @@ const getReportedReviews = async () => {
         const reviewDoc = await getDoc(reviewRef);
         const data = reviewDoc.data();
         data.id = reviewDoc.id;
+        data.numReports = review.numReports;
         reviews.push(data);
     }
     
@@ -104,6 +105,7 @@ const getReportedDiscussions = async () => {
         const discussionDoc = await getDoc(discussionRef);
         const data = discussionDoc.data();
         data.id = discussionDoc.id;
+        data.numReports = discussion.numReports;
         discussions.push(data);
     }
 
