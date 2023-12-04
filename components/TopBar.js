@@ -1,9 +1,21 @@
-import React from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
 import { UserAuth } from '@components/context/AuthContext';
 
 export default function TopBar ({showLogin = true}) {
     const {user, profile, emailSignUp, emailSignIn, logOut} = UserAuth()
+
+    const [admin, setAdmin] = useState(false)
+
+    useEffect(() => {
+        if (!profile) return;
+        if (profile.admin) {
+            setAdmin(true)
+        }
+    }, [profile])
 
     return (
         <div>
@@ -14,6 +26,7 @@ export default function TopBar ({showLogin = true}) {
             {user ? (
                 <>
                     <div className = "buttons">
+                        {admin && <a href='/reports'>Reported Posts</a>}
                         <a href="/addmovie">Add Movie</a>
                         <a href="/search">Movie Search</a>
                         {/* <a href="/usersearch">User Search</a> */}
