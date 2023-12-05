@@ -40,7 +40,7 @@ export default function AddMovie() {
             return
         }
         
-        const omdbRes = await fetch(`http://www.omdbapi.com/?apikey=${api_key}&s=${name}${year && year != '' ? "&y=" + year : ''}`)
+        const omdbRes = await fetch(`https://www.omdbapi.com/?apikey=${api_key}&s=${name}${year && year != '' ? "&y=" + year : ''}`)
         const omdbData = await omdbRes.json()
         console.log(omdbData)
         if (omdbData.Response == 'False') {
