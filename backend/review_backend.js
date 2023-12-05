@@ -85,7 +85,10 @@ const getReviewsByMovie = async (movieID, limit=10) => {
     return output;
 }
 
-
+const removeReview = async (reviewID) => {
+    const reviewRef = doc(db, "reviews/", reviewID);
+    await deleteDoc(reviewRef);
+}
 
 
 module.exports = { getUserReviews, addReviewEntry, getReviewbyID, getReviewsByDate, getReviewsByMovie };

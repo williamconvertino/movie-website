@@ -7,7 +7,8 @@ const {
     doc,
     getDoc,
     Timestamp,
-    getDocs
+    getDocs,
+    deleteDoc,
 } = require("firebase/firestore");
 
 const { db } = require('./firebase_backend')
@@ -83,4 +84,9 @@ const getDiscussionsReviewID = async (reviewID, limit) => {
     return chatData;
     }
 
-module.exports = { addDiscussion, getUserDiscussions, getDiscussionbyID, getDiscussionsReviewID}
+const removeDiscussion = async (discussionID) => {
+    const discussionRef = doc(db, "discussions/", discussionID);
+    await deleteDoc(discussionRef);
+}
+
+module.exports = { addDiscussion, getUserDiscussions, getDiscussionbyID, getDiscussionsReviewID, removeDiscussion}
