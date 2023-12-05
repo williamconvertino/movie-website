@@ -22,7 +22,7 @@ export default function SearchResultsComponent({genre, startYear, endYear, sortO
     const newQuery = e.target.value;
     setQuery(newQuery);
 
-    return
+    //return
     //THIS RETURN STATEMENT STOPS THE AUTOCOMPLETE
     //Autocomplete is cool, but it causes a lot of database queries; only use it for demos
 
